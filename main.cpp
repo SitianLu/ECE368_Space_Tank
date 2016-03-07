@@ -1,31 +1,25 @@
-#include <SFML/Graphics.hpp>
 
+#include<SFML/Graphics.hpp>
+#include<iostream>
 
-int main() {
+int main()
+{
+    sf::RenderWindow Window;
+    Window.create(sf::VideoMode(800,600), "Space Tank");
 
-    sf::RenderWindow window(sf::VideoMode(640,480,32),"Hello SFML");
-
-    sf::Font font;
-    font.loadFromFile("OpenSans-Italic.ttf");
-
-    sf::Text text("Hello World",font,11);
-    text.setCharacterSize(32);
-    text.setPosition(window.getSize().x/2 - text.getGlobalBounds().width/2,
-                     window.getSize().y/2 - text.getGlobalBounds().height/2);
-
-
-    while(window.isOpen()){
-
-        sf::Event event;
-        while(window.pollEvent(event)) {
-            if(event.type == sf::Event::Closed){
-                window.close();
+    while (Window.isOpen())
+    {
+        sf::Event Event;
+        while(Window.pollEvent(Event))
+        {
+            if (Event.type == sf::Event::Closed)
+            {
+                Window.close();
             }
-
-            window.clear(sf::Color::Black);
-            window.draw(text);
-            window.display();
+            Window.display();
         }
     }
-    return 0;
+
 }
+
+
