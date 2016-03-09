@@ -6,8 +6,11 @@
 int main()
 {
     sf::RenderWindow Window;
-    Window.create(sf::VideoMode(800,600), "Space Tank", sf::Style::Default);
+    Window.create(sf::VideoMode(1200, 775), "Space Tank", sf::Style::Default);
 
+    enum Direction{Down, Left, Right, Up};
+
+    sf::Vector2i source(1, Down); //Tell where the animation start
 /* Resize window
     sf::Vector2u size(400, 400);
 
@@ -17,12 +20,38 @@ int main()
     Window.setTitle("Looks good!");
     Window.setPosition(sf::Vector2i(100,100));
 */
-    //
     sf::Clock clock;
     sf::Time time;
 
     std::string message = "Hello my name is your mother";
     std::string display = "";
+
+    sf::Texture tankTexture, backgroundTexture, personTexture;
+
+    sf::Sprite tankImage, backgroundImage, personImage;
+
+
+
+    if (!tankTexture.loadFromFile(("tank1.png")))
+    {
+        std::cout << "Error could not load tank image" << std::endl;
+    }
+    if (!backgroundTexture.loadFromFile(("Space_background.png")))
+    {
+        std::cout << "Error could not load background image" << std::endl;
+    }
+    if (!personTexture.loadFromFile(("person.png")))
+    {
+        std::cout << "Error could not load person image" << std::endl;
+    }
+
+    tankImage.setTexture(tankTexture);
+
+    backgroundImage.setTexture(backgroundTexture);
+
+    personImage.setTexture(personTexture);
+
+    tankImage.setPosition(120,220);
 
     int index = 0;
 
@@ -40,6 +69,29 @@ int main()
                     Window.close();
                     break;
                 }
+                case sf::Event::KeyPressed:
+                {
+                    if (Event.key.code == sf::Keyboard::Up)
+                    {
+                        source.y = Up;
+                    }
+                    else if (Event.key.code == sf::Keyboard::Down)
+                    {
+                        source.y = Down;
+                    }
+                    else if (Event.key.code == sf::Keyboard::Left)
+                    {
+                        source.y = Left;
+                    }
+                    else if (Event.key.code == sf::Keyboard::Right)
+                    {
+                        source.y = Right;
+                    }
+                    break;
+                }
+
+
+
                 /*Text Event
                 case sf::Event::TextEntered:
                 {
@@ -113,9 +165,17 @@ int main()
             */
         }
 
-
+        source.x ++;
+        if (source.x * 32 >= personTexture.getSize().x)
+        {
+            source.x = 0;
+        }
+        Window.draw(backgroundImage);
+        Window.draw(tankImage);
+        personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
+        Window.draw(personImage);
         Window.display();
-
+        Window.clear();
     }
 
 }
