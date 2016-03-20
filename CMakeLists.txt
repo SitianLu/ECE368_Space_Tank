@@ -3,8 +3,8 @@ project(ECE368_Space_Tank)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp)
-add_executable(ECE368_Space_Tank ${SOURCE_FILES})
+set(SOURCE_FILES main.cpp Decleration.h)
+add_executable(ECE368_Space_Tank ${SOURCE_FILES} Decleration.h)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 find_package(SFML REQUIRED system window graphics network audio)

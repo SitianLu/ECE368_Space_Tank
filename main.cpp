@@ -22,13 +22,15 @@ int main()
 */
     sf::Clock clock;
     sf::Time time;
+    sf::CircleShape base_circle(100);
+
 
     std::string message = "Hello my name is your mother";
     std::string display = "";
 
-    sf::Texture tankTexture, backgroundTexture, personTexture;
+    sf::Texture tankTexture, backgroundTexture, personTexture, planetTexture;
 
-    sf::Sprite tankImage, backgroundImage, personImage;
+    sf::Sprite tankImage, backgroundImage, personImage, planet;
 
 
 
@@ -44,12 +46,18 @@ int main()
     {
         std::cout << "Error could not load person image" << std::endl;
     }
+    if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
+    {
+        std::cout << "Error could not load planet image" << std::endl;
+    }
 
     tankImage.setTexture(tankTexture);
 
     backgroundImage.setTexture(backgroundTexture);
 
     personImage.setTexture(personTexture);
+
+    base_circle.setTexture(&planetTexture);
 
     tankImage.setPosition(120,220);
 
@@ -171,6 +179,7 @@ int main()
             source.x = 0;
         }
         Window.draw(backgroundImage);
+        Window.draw(base_circle);
         Window.draw(tankImage);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
         Window.draw(personImage);
