@@ -1,6 +1,7 @@
 
 #include<SFML/Graphics.hpp>
 #include<iostream>
+#include "Planet_object.h"
 #include<string>
 
 int main()
@@ -9,6 +10,16 @@ int main()
     Window.create(sf::VideoMode(1200, 775), "Space Tank", sf::Style::Default);
 
     enum Direction{Down, Left, Right, Up};
+
+    Planet planet1;
+
+    planet1.setMass(2000000);
+    planet1.setRadius(50);
+    //planet1.setPosition(500,500);
+    planet1.createShape();
+    planet1.shape.setPosition(500,500);
+    planet1.createSprite("Textures_of_planets/Hell(planet).png");
+
 
     sf::Vector2i source(1, Down); //Tell where the animation start
 /* Resize window
@@ -22,7 +33,6 @@ int main()
 */
     sf::Clock clock;
     sf::Time time;
-    sf::CircleShape base_circle(100);
 
 
     std::string message = "Hello my name is your mother";
@@ -46,10 +56,10 @@ int main()
     {
         std::cout << "Error could not load person image" << std::endl;
     }
-    if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
-    {
-        std::cout << "Error could not load planet image" << std::endl;
-    }
+    //if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
+    //{
+      //  std::cout << "Error could not load person image" << std::endl;
+    //}
 
     tankImage.setTexture(tankTexture);
 
@@ -57,7 +67,8 @@ int main()
 
     personImage.setTexture(personTexture);
 
-    base_circle.setTexture(&planetTexture);
+    //planet1.shape.setTexture(&planetTexture);
+
 
     tankImage.setPosition(120,220);
 
@@ -179,7 +190,7 @@ int main()
             source.x = 0;
         }
         Window.draw(backgroundImage);
-        Window.draw(base_circle);
+        Window.draw(planet1.shape);
         Window.draw(tankImage);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
         Window.draw(personImage);
