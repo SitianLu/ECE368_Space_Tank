@@ -2,25 +2,27 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include "Planet_object.h"
+#include "map_object.h"
 #include<string>
 
 int main()
 {
-    sf::RenderWindow Window;
-    Window.create(sf::VideoMode(1200, 775), "Space Tank", sf::Style::Default);
+
+
+
+
+    map map1(4000,2000,"Space Tank","sprites/sky/stars.png");
+
+    Planet planet1(500,500,2000000,150,"sprites/planets/hell.png");
+    Planet planet2(1000,800,2000000,250,"sprites/planets/earth.png");
+    Planet planet3(2000,300,2000000,400,"sprites/planets/pink.png");
+
+
+
+
+
 
     enum Direction{Down, Left, Right, Up};
-
-    Planet planet1;
-
-    planet1.setMass(2000000);
-    planet1.setRadius(50);
-    //planet1.setPosition(500,500);
-    planet1.createShape();
-    planet1.shape.setPosition(500,500);
-    planet1.createSprite("Textures_of_planets/Hell(planet).png");
-
-
     sf::Vector2i source(1, Down); //Tell where the animation start
 /* Resize window
     sf::Vector2u size(400, 400);
@@ -48,10 +50,6 @@ int main()
     {
         std::cout << "Error could not load tank image" << std::endl;
     }
-    if (!backgroundTexture.loadFromFile(("Space_background.png")))
-    {
-        std::cout << "Error could not load background image" << std::endl;
-    }
     if (!personTexture.loadFromFile(("person.png")))
     {
         std::cout << "Error could not load person image" << std::endl;
@@ -63,7 +61,7 @@ int main()
 
     tankImage.setTexture(tankTexture);
 
-    backgroundImage.setTexture(backgroundTexture);
+    //backgroundImage.setTexture(backgroundTexture);
 
     personImage.setTexture(personTexture);
 
@@ -74,18 +72,18 @@ int main()
 
     int index = 0;
 
-    Window.setKeyRepeatEnabled(false);
+    map1.window.setKeyRepeatEnabled(false);
 
-    while (Window.isOpen())
+    while (map1.window.isOpen())
     {
         sf::Event Event;
-        while(Window.pollEvent(Event))
+        while(map1.window.pollEvent(Event))
         {
 
             switch(Event.type) {
                 case sf::Event::Closed:
                 {
-                    Window.close();
+                    map1.window.close();
                     break;
                 }
                 case sf::Event::KeyPressed:
@@ -189,13 +187,15 @@ int main()
         {
             source.x = 0;
         }
-        Window.draw(backgroundImage);
-        Window.draw(planet1.shape);
-        Window.draw(tankImage);
+        map1.window.draw(map1.background);
+        map1.window.draw(planet1.shape);
+        map1.window.draw(planet2.shape);
+        map1.window.draw(planet3.shape);
+        map1.window.draw(tankImage);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
-        Window.draw(personImage);
-        Window.display();
-        Window.clear();
+        map1.window.draw(personImage);
+        map1.window.display();
+        map1.window.clear();
     }
 
 }

@@ -7,8 +7,8 @@
 
 
 struct Force {
-    double force_x;
-    double force_y;
+    double x;
+    double y;
 };
 
 

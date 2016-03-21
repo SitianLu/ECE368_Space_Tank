@@ -3,10 +3,20 @@
 //
 
 #include "Planet_object.h"
-#include "Force_object.h"
+#include "Force_struct.h"
 #include "Global_constant.h"
 #include <cmath>
 
+
+Planet::Planet(int x, int y, double mass, float radius, std::string path) {
+
+    setMass(mass);
+    setRadius(radius);
+    createShape();
+    createSprite(path);
+    setPosition(x,y);
+
+}
 
 void Planet::setPosition(int a, int b) {
     x_coord = a;
@@ -19,7 +29,7 @@ void Planet::setMass(double m) {
     mass = m;
 }
 
-void Planet::setRadius(double r) {
+void Planet::setRadius(float r) {
     radius = r;
 }
 
@@ -52,8 +62,8 @@ struct Force Planet::getGravity(int bullet_x, int bullet_y) {
     int distance_y = y_coord - bullet_y;
     struct Force gravity_force;
 
-    gravity_force.force_x = G * BULLET_MASS * mass / distance_x;
-    gravity_force.force_y = G * BULLET_MASS * mass / distance_y;
+    gravity_force.x = G * BULLET_MASS * mass / distance_x;
+    gravity_force.y = G * BULLET_MASS * mass / distance_y;
 
     return(gravity_force);
 }
