@@ -15,7 +15,6 @@ int main()
 
     planet1.setMass(2000000);
     planet1.setRadius(50);
-    //planet1.setPosition(500,500);
     planet1.createShape();
     planet1.shape.setPosition(500,500);
     planet1.createSprite("Textures_of_planets/Hell(planet).png");
@@ -58,7 +57,7 @@ int main()
     }
     //if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
     //{
-      //  std::cout << "Error could not load person image" << std::endl;
+    //    std::cout << "Error could not load person image" << std::endl;
     //}
 
     tankImage.setTexture(tankTexture);
@@ -199,5 +198,3 @@ int main()
     }
 
 }
-
-
