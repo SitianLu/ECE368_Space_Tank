@@ -9,9 +9,6 @@ int main()
 {
 
 
-
-<<<<<<< HEAD
-
     map map1(4000,2000,"Space Tank","sprites/sky/stars.png");
 
     Planet planet1(500,500,2000000,150,"sprites/planets/hell.png");
