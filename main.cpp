@@ -10,14 +10,13 @@ int main()
 
 
 
+<<<<<<< HEAD
 
     map map1(4000,2000,"Space Tank","sprites/sky/stars.png");
 
     Planet planet1(500,500,2000000,150,"sprites/planets/hell.png");
     Planet planet2(1000,800,2000000,250,"sprites/planets/earth.png");
     Planet planet3(2000,300,2000000,400,"sprites/planets/pink.png");
-
-
 
 
 
@@ -56,7 +55,7 @@ int main()
     }
     //if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
     //{
-      //  std::cout << "Error could not load person image" << std::endl;
+    //    std::cout << "Error could not load person image" << std::endl;
     //}
 
     tankImage.setTexture(tankTexture);
@@ -199,5 +198,3 @@ int main()
     }
 
 }
-
-
