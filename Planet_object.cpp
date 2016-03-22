@@ -8,8 +8,9 @@
 #include <cmath>
 
 
-Planet::Planet(int x, int y, double mass, float radius, std::string path) {
+Planet::Planet(int number, int x, int y, double mass, float radius, std::string path) {
 
+    setNumber(number);
     setMass(mass);
     setRadius(radius);
     createShape();
@@ -81,5 +82,10 @@ void Planet::createSprite(std::string path) {
     }
 
     shape.setTexture(&planetTexture);
+
+}
+
+void Planet::setNumber(int a) {
+    number = a;
 
 }

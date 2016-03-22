@@ -3,6 +3,7 @@
 #include<iostream>
 #include "Planet_object.h"
 #include "map_object.h"
+#include "Tank_object.h"
 #include<string>
 
 int main()
@@ -11,9 +12,10 @@ int main()
 
     map map1(2500,1500,"Space Tank","sprites/sky/stars.png");
 
-    Planet planet1(500,500,2000000,150,"sprites/planets/hell.png");
-    Planet planet2(1000,800,2000000,250,"sprites/planets/earth.png");
-    Planet planet3(2000,300,2000000,400,"sprites/planets/pink.png");
+    Planet planet1(1,0,0,2000000,150,"sprites/planets/hell.png");
+    Planet planet2(2,1000,800,2000000,250,"sprites/planets/earth.png");
+    Planet planet3(3,2000,300,2000000,400,"sprites/planets/pink.png");
+
 
     planet3.shape.setOrigin(400,300);
 
