@@ -9,16 +9,17 @@ int main()
 {
 
 
-    map map1(4000,2000,"Space Tank","sprites/sky/stars.png");
+    map map1(2500,1500,"Space Tank","sprites/sky/stars.png");
 
     Planet planet1(500,500,2000000,150,"sprites/planets/hell.png");
     Planet planet2(1000,800,2000000,250,"sprites/planets/earth.png");
     Planet planet3(2000,300,2000000,400,"sprites/planets/pink.png");
 
-
+    planet3.shape.setOrigin(400,300);
 
 
     enum Direction{Down, Left, Right, Up};
+    float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
     sf::Vector2i source(1, Down); //Tell where the animation start
 /* Resize window
     sf::Vector2u size(400, 400);
@@ -36,35 +37,18 @@ int main()
     std::string message = "Hello my name is your mother";
     std::string display = "";
 
-    sf::Texture tankTexture, backgroundTexture, personTexture, planetTexture;
+    sf::Texture backgroundTexture, personTexture, planetTexture;
 
-    sf::Sprite tankImage, backgroundImage, personImage, planet;
+    sf::Sprite backgroundImage, personImage, planet;
 
 
-
-    if (!tankTexture.loadFromFile(("tank1.png")))
-    {
-        std::cout << "Error could not load tank image" << std::endl;
-    }
     if (!personTexture.loadFromFile(("person.png")))
     {
         std::cout << "Error could not load person image" << std::endl;
     }
-    //if (!planetTexture.loadFromFile(("Textures_of_planets/Hell(planet).png")))
-    //{
-    //    std::cout << "Error could not load person image" << std::endl;
-    //}
-
-    tankImage.setTexture(tankTexture);
-
-    //backgroundImage.setTexture(backgroundTexture);
 
     personImage.setTexture(personTexture);
 
-    //planet1.shape.setTexture(&planetTexture);
-
-
-    tankImage.setPosition(120,220);
 
     int index = 0;
 
@@ -80,26 +64,6 @@ int main()
                 case sf::Event::Closed:
                 {
                     map1.window.close();
-                    break;
-                }
-                case sf::Event::KeyPressed:
-                {
-                    if (Event.key.code == sf::Keyboard::Up)
-                    {
-                        source.y = Up;
-                    }
-                    else if (Event.key.code == sf::Keyboard::Down)
-                    {
-                        source.y = Down;
-                    }
-                    else if (Event.key.code == sf::Keyboard::Left)
-                    {
-                        source.y = Left;
-                    }
-                    else if (Event.key.code == sf::Keyboard::Right)
-                    {
-                        source.y = Right;
-                    }
                     break;
                 }
 
@@ -157,8 +121,8 @@ int main()
                 }
                 */
 
-
             }
+
 
             /* Keyboard event
             if (Event.type == sf::Event::KeyPressed)
@@ -178,16 +142,44 @@ int main()
             */
         }
 
-        source.x ++;
-        if (source.x * 32 >= personTexture.getSize().x)
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            source.x = 0;
+            source.y = Up;
+            personImage.move(0,-1);
         }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            source.y = Down;
+            personImage.move(0,1);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            source.y = Left;
+            personImage.move(-1,0);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            source.y = Right;
+            personImage.move(1,0);
+        }
+
+        frameCounter += frameSpeed * clock.restart().asSeconds();
+        if (frameCounter >= switchFrame) {
+            frameCounter = 0;
+            source.x++;
+            if (source.x * 32 >= personTexture.getSize().x) {
+                source.x = 0;
+            }
+            planet1.shape.rotate(0.6);
+            planet2.shape.rotate(-0.3);
+            planet3.shape.rotate(0.3);
+        }
+
         map1.window.draw(map1.background);
         map1.window.draw(planet1.shape);
         map1.window.draw(planet2.shape);
         map1.window.draw(planet3.shape);
-        map1.window.draw(tankImage);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
         map1.window.draw(personImage);
         map1.window.display();
