@@ -23,6 +23,9 @@ void Planet::setPosition(int a, int b) {
     x_coord = a;
     y_coord = b;
 
+    x_center = x_coord + (int)radius;
+    y_center = y_coord + (int)radius;
+
     shape.setPosition(x_coord, y_coord);
 }
 
@@ -80,7 +83,7 @@ void Planet::createSprite(std::string path) {
     {
         std::cout << "Error could not load planet image" << std::endl;
     }
-
+    planetTexture.setSmooth(true);
     shape.setTexture(&planetTexture);
 
 }
@@ -88,4 +91,12 @@ void Planet::createSprite(std::string path) {
 void Planet::setNumber(int a) {
     number = a;
 
+}
+
+int Planet::getCenterX() {
+    return x_center;
+}
+
+int Planet::getCenterY() {
+    return y_center;
 }

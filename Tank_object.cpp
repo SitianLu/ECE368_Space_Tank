@@ -3,11 +3,15 @@
 //
 
 #include "Tank_object.h"
-#include <iostream>
+//#include <iostream>
+//#include "Global_constant.h"
+
 
 void Tank::setPosition(int a, int b) {
     x = a;
     y = b;
+    x_center = x + tankTexture.getSize().x;
+    y_center = y + tankTexture.getSize().y;
     shape.setPosition(x,y);
 }
 
@@ -30,6 +34,17 @@ void Tank::createSprite(std::string path) {
 
 }
 
+void Tank::setPlanet(Planet* planet) {
+
+    planet_on = planet;
+    setPosition(planet_on->x_center - tankTexture.getSize().x / 2, planet_on->y_coord - (tankTexture.getSize()).y);
 
 
+}
 
+Tank::Tank(Planet* planet, std::string path) {
+
+    createSprite(path);
+    setPlanet(planet);
+
+}

@@ -7,14 +7,18 @@
 
 #include<SFML/Graphics.hpp>
 #include<string>
+#include "Planet_object.h"
+
 
 class Tank {
 private:
     int x;
     int y;
+    int x_center;
+    int y_center;
     int rotation;
     int tank_number;
-    //Planet planet_on;
+    Planet* planet_on;
     sf::Texture tankTexture;
 
 public:
@@ -23,7 +27,8 @@ public:
     int getX();
     int getY();
     void createSprite(std::string);
-    //void setPlanet(Planet);
+    void setPlanet(Planet*);
+    Tank(Planet*, std::string);
 };
 
 

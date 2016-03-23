@@ -9,15 +9,18 @@
 int main()
 {
 
-
     map map1(2500,1500,"Space Tank","sprites/sky/stars.png");
 
-    Planet planet1(1,0,0,2000000,150,"sprites/planets/hell.png");
+    Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
     Planet planet2(2,1000,800,2000000,250,"sprites/planets/earth.png");
-    Planet planet3(3,2000,300,2000000,400,"sprites/planets/pink.png");
+    Planet planet3(3,2000,600,2000000,300,"sprites/planets/pink.png");
 
 
-    planet3.shape.setOrigin(400,300);
+    //planet1.shape.setOrigin(planet1.getCenterX(),planet1.getCenterY());
+
+    Tank tank1(&planet3, "sprites/tanks/tank1.png");
+
+
 
 
     enum Direction{Down, Left, Right, Up};
@@ -173,15 +176,16 @@ int main()
             if (source.x * 32 >= personTexture.getSize().x) {
                 source.x = 0;
             }
-            planet1.shape.rotate(0.6);
-            planet2.shape.rotate(-0.3);
-            planet3.shape.rotate(0.3);
+            //planet1.shape.rotate(0.6);
+            //planet2.shape.rotate(-0.3);
+            //planet3.shape.rotate(0.3);
         }
 
         map1.window.draw(map1.background);
         map1.window.draw(planet1.shape);
         map1.window.draw(planet2.shape);
         map1.window.draw(planet3.shape);
+        map1.window.draw(tank1.shape);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
         map1.window.draw(personImage);
         map1.window.display();

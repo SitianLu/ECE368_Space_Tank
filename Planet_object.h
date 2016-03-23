@@ -8,13 +8,14 @@
 
 #ifndef ECE368_SPACE_TANK_CLASS_DECLARATION_H
 #define ECE368_SPACE_TANK_CLASS_DECLARATION_H
-#endif //ECE368_SPACE_TANK_CLASS_DECLARATION_H
 
 
 class Planet {
 private:
     int x_coord;
     int y_coord;
+    int x_center;
+    int y_center;
     double mass;
     float radius;
     int number;
@@ -31,9 +32,14 @@ public:
     void createSprite(std::string);
     int getX();
     int getY();
+    int getCenterX();
+    int getCenterY();
     double getMass();
     double getRadius();
     double getCircumference();
     double getArea();
     struct Force getGravity(int, int);
+    friend class Tank;
 };
+
+#endif //ECE368_SPACE_TANK_CLASS_DECLARATION_H
