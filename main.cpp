@@ -1,15 +1,15 @@
 
-#include<SFML/Graphics.hpp>
-#include<iostream>
+#include <SFML/Graphics.hpp>
+#include <iostream>
 #include "Planet_object.h"
 #include "map_object.h"
 #include "Tank_object.h"
-#include<string>
+#include <string>
 
 int main()
 {
 
-    map map1(2500,1500,"Space Tank","sprites/sky/stars.png");
+    map map1(2500, 1500, "Space Tank");
 
     Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
     Planet planet2(2,1000,800,2000000,250,"sprites/planets/earth.png");
@@ -191,5 +191,6 @@ int main()
         map1.window.display();
         map1.window.clear();
     }
+
 
 }

@@ -15,9 +15,10 @@ private:
 public:
     sf::Sprite background;
     sf::RenderWindow window;
-    map(int width, int length, std::string name, std::string path);
+    map(int width, int length, std::string name);
     void createWindow(int x, int y, std::string name);
     void createSprite(std::string);
+    std::string randomMap();
 
 };
 

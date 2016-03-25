@@ -22,7 +22,19 @@ void map::createSprite(std::string path) {
     background.setTexture(backgroundTexture);
 }
 
-map::map(int width, int length, std::string name, std::string path) {
+std::string map::randomMap() {
+
+	srand(time(NULL));
+	int seed = rand() % 7;
+	std::stringstream ss;
+	ss << seed;
+	std::string str = ss.str();
+	std::string mapPath = "sprites/sky/stars" + str + ".png";
+
+	return mapPath;
+}
+
+map::map(int width, int length, std::string name) {
     createWindow(width, length, name);
-    createSprite(path);
+    createSprite(randomMap());
 }
