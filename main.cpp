@@ -19,6 +19,7 @@ int main()
     //planet1.shape.setOrigin(planet1.getCenterX(),planet1.getCenterY());
 
     Tank tank1(&planet3, "sprites/tanks/tank1.png");
+    Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
 
 
 
@@ -181,10 +182,12 @@ int main()
             //planet3.shape.rotate(0.3);
         }
 
+
         map1.window.draw(map1.background);
         map1.window.draw(planet1.shape);
         map1.window.draw(planet2.shape);
         map1.window.draw(planet3.shape);
+        map1.window.draw(barrel1.shape);
         map1.window.draw(tank1.shape);
         personImage.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
         map1.window.draw(personImage);

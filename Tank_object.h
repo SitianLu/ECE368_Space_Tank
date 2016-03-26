@@ -26,9 +26,12 @@ public:
     void setPosition(int x, int y);
     int getX();
     int getY();
+    int getCenterX();
+    int getCenterY();
     void createSprite(std::string);
     void setPlanet(Planet*);
     Tank(Planet*, std::string);
+    friend class Barrel;
 };
 
 

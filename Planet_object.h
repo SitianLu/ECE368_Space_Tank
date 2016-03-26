@@ -40,6 +40,7 @@ public:
     double getArea();
     struct Force getGravity(int, int);
     friend class Tank;
+    friend class Barrel;
 };
 
 #endif //ECE368_SPACE_TANK_CLASS_DECLARATION_H

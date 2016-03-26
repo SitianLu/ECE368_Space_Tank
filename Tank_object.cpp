@@ -48,3 +48,11 @@ Tank::Tank(Planet* planet, std::string path) {
     setPlanet(planet);
 
 }
+
+int Tank::getCenterX() {
+  return x_center;
+}
+
+int Tank::getCenterY() {
+  return y_center;
+}

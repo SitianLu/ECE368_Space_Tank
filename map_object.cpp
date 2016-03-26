@@ -5,6 +5,7 @@
 
 #include "map_object.h"
 #include <iostream>
+#include <sstream>
 
 
 void map::createWindow(int x, int y, std::string name) {
