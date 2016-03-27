@@ -25,7 +25,7 @@ void map::createSprite(std::string path) {
 
 std::string map::randomMap() {
 
-	int seed = rand() % 7;
+	int seed = arc4random() % 7;
 	std::stringstream ss;
 	ss << seed;
 	std::string str = ss.str();

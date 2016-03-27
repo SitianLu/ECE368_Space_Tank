@@ -10,9 +10,10 @@
 int main()
 {
 
-    srand((unsigned)time(NULL));
-    rand();
+    //srand((unsigned)time(NULL));
+    //rand();
 
+    std::cout << arc4random() % 7 << std::endl;
     map map1(2500, 1500, "Space Tank");
 
     Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
