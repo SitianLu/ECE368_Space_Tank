@@ -4,6 +4,7 @@
 #include "Planet_object.h"
 #include "map_object.h"
 #include "Tank_object.h"
+#include "Barrel_object.h"
 #include <string>
 
 int main()
