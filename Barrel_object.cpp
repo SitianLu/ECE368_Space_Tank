@@ -6,11 +6,17 @@
 #include "Tank_object.h"
 
 void Barrel::setPosition(int a, int b) {
-	x = a;
-	y = b;
-	x_center = x + barrelTexture.getSize().x;
-	y_center = y + barrelTexture.getSize().y;
-	shape.setPosition(x, y);
+    x = a;
+    y = b;
+    int shift=90;
+    x_center = x + barrelTexture.getSize().x;
+    y_center = y + barrelTexture.getSize().y;
+    shape.setPosition(x, y);
+    sf::Vector2f origin=shape.getOrigin();
+    origin.x=origin.x+shift;
+    shape.setOrigin(origin);
+    shape.setPosition(x+200,y);
+    
 }
 
 int Barrel::getX() {
