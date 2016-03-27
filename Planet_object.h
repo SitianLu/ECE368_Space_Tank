@@ -43,4 +43,10 @@ public:
     friend class Barrel;
 };
 
+
+typedef struct planet_nodes {
+	Planet* value;
+	struct planet_nodes* next;
+}planet_node;
+
 #endif //ECE368_SPACE_TANK_CLASS_DECLARATION_H

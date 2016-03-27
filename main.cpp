@@ -10,23 +10,31 @@
 int main()
 {
 
-    map map1(2500, 1500, "Space Tank");
+    map map1(1800, 800, "Space Tank");
     
     Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
-    Planet planet2(2,1000,800,2000000,250,"sprites/planets/earth.png");
-    Planet planet3(3,2000,600,2000000,300,"sprites/planets/pink.png");
+    Planet planet2(2,300,300,2000000,250,"sprites/planets/earth_no_margin.png");
+    Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
     
     
     //planet1.shape.setOrigin(planet1.getCenterX(),planet1.getCenterY());
     
     Tank tank1(&planet2, "sprites/tanks/tank1.png");
     Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
+
+	planet_node *head = new planet_node;
+	head->value = &planet1;
+	head->next = new planet_node;
+	head->next->value = &planet2;
+	head->next->next = new planet_node;
+	head->next->next->value = &planet3;
+	head->next->next->next = NULL;
     
     
     
     
     enum Direction{Down, Left, Right, Up};
-    float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+    float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
     sf::Vector2i source(1, Down); //Tell where the animation start
 
     sf::Clock clock;
@@ -83,7 +91,7 @@ int main()
             frameCounter = 0;
 
             // Any Anomation update goes here
-
+			planet1.shape.rotate(1);
         }
         
         
