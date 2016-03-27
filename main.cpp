@@ -10,6 +10,9 @@
 int main()
 {
 
+    srand((unsigned)time(NULL));
+    rand();
+
     map map1(2500, 1500, "Space Tank");
 
     Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
@@ -19,7 +22,7 @@ int main()
 
     //planet1.shape.setOrigin(planet1.getCenterX(),planet1.getCenterY());
 
-    Tank tank1(&planet3, "sprites/tanks/tank1.png");
+    Tank tank1(&planet2, "sprites/tanks/tank1.png");
     Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
 
 

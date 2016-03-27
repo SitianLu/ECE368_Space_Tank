@@ -3,7 +3,6 @@
 //
 
 #include "Planet_object.h"
-#include "Force_struct.h"
 #include "Global_constant.h"
 #include <cmath>
 

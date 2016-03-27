@@ -25,7 +25,6 @@ void map::createSprite(std::string path) {
 
 std::string map::randomMap() {
 
-	srand(time(NULL));
 	int seed = rand() % 7;
 	std::stringstream ss;
 	ss << seed;
