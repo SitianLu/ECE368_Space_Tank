@@ -1,10 +1,19 @@
 #include "bullet_object.h"
-#define TIME_COEFFICIENT 1.0
+#define TIME_COEFFICIENT 0.001
 
+Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path) 
+{
+	mass = mass_in;
+	velocity = velocity_in;
+	createShape();
+	createSprite(path);
+	setPosition(x, y);
+}
 void Bullet::setPosition(int x, int y)
 {
 	x_coord = x;
 	y_coord = y;
+	shape.setPosition(x, y);
 }
 
 sf::Vector2i Bullet::getPosition()
@@ -39,6 +48,7 @@ sf::Vector2f Bullet::getAccel( planet_node * head)
 	}
 	force.x /= mass;// It's not actually force at this point
 	force.y /= mass;// it's acceleration
+	//printf("%f %f \n", force.x, force.y);
 	return force;
 }
 
@@ -58,4 +68,9 @@ void Bullet::inc_bullet(planet_node* list_head)
 	displacement.x = velocity.x*TIME_COEFFICIENT;
 	displacement.y = velocity.y*TIME_COEFFICIENT;
 	shape.move(displacement);
+	sf::Vector2f position;
+	position = shape.getPosition();
+	x_coord = position.x;
+	y_coord = position.y;
+	//printf("%f %f \n", position.x, position.y);
 }

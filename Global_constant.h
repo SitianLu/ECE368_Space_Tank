@@ -6,7 +6,7 @@
 #define ECE368_SPACE_TANK_GLOBAL_CONSTANT_H
 
 #define PI 3.1415926535
-#define G 6.674*pow(10,-11)
+#define G 1000//6.674*pow(10,-11)
 #define BULLET_MASS 1000
 
 #endif //ECE368_SPACE_TANK_GLOBAL_CONSTANT_H

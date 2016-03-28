@@ -10,6 +10,7 @@ private:
 	sf::Texture bulletTexture;
 public:
 	sf::CircleShape shape;
+	Bullet(int x, int y, double mass, sf::Vector2f velocity, std::string path);
 	void setPosition(int x, int y);
 	sf::Vector2i getPosition();
 	void createShape();
