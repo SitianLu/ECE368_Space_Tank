@@ -5,7 +5,9 @@
 #include "map_object.h"
 #include "Tank_object.h"
 #include "Barrel_object.h"
+#include "Global_constant.h"
 #include <string>
+#include <math.h>
 
 int main()
 {
@@ -13,12 +15,9 @@ int main()
     map map1(1800, 800, "Space Tank");
     
     Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
-    Planet planet2(2,300,300,2000000,250,"sprites/planets/earth_no_margin.png");
+    Planet planet2(2,300,300,2000000,250,"sprites/planets/earth.png");
     Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
-    
-    
-    //planet1.shape.setOrigin(planet1.getCenterX(),planet1.getCenterY());
-    
+
     Tank tank1(&planet2, "sprites/tanks/tank1.png");
     Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
 
@@ -39,54 +38,64 @@ int main()
     float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
     sf::Vector2i source(1, Down); //Tell where the animation start
 
+
     sf::Clock clock;
     sf::Time time;
+    int index = 0;
 
     barrel1.setTank(&tank1);
 
 
-    int index = 0;
-    
-    map1.window.setKeyRepeatEnabled(false);
-    
     while (map1.window.isOpen())
     {
         sf::Event Event;
+
         while(map1.window.pollEvent(Event))
         {
-            
+            map1.window.setKeyRepeatEnabled(true);
+
             switch(Event.type) {
                 case sf::Event::Closed: {
                     map1.window.close();
                     break;
                 }
+
+                case sf::Event::KeyPressed: {
+
+                    if(Event.key.code == sf::Keyboard::Down)
+                    {
+                        barrel1.shape.rotate((float)-1.0);
+                    }
+
+                    if (Event.key.code == sf::Keyboard::Up)
+                    {
+                        barrel1.shape.rotate(1.0);
+                    }
+
+                    if (Event.key.code == sf::Keyboard::Right)
+                    {
+                        tank1.Move_Clock(0.05);
+                        barrel1.Move_Clock(0.05);
+                    }
+
+                    if (Event.key.code == sf::Keyboard::Left)
+                    {
+                        tank1.Move_ConterClock(0.05);
+                        barrel1.Move_ConterClock(0.05);
+                    }
+                }
+
+                case sf::Event::MouseButtonPressed:
+                {
+                    if(Event.mouseButton.button == sf::Mouse::Left)
+                    {
+                        std::cout<<"Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y<<std::endl;
+                    }
+                }
             }
 
         }
 
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {
-            source.y = Up;
-            //tank1.shape.move(0, -1);
-            barrel1.shape.rotate(1.0);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            source.y = Down;
-            //tank1.shape.move(0, 1);
-            barrel1.shape.rotate(-1.0);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {
-            source.y = Left;
-            tank1.shape.move(-1, 0);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {
-            source.y = Right;
-            tank1.shape.move(1, 0);
-        }
 
         frameCounter += frameSpeed * clock.restart().asSeconds();
         if (frameCounter >= switchFrame) {

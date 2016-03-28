@@ -11,12 +11,8 @@
 
 class Barrel {
 private:
-	int x;
-	int y;
-	int x_center;
-	int y_center;
-	int rotation;
-	int barrel_number;
+	int x_origin;
+	int y_origin;
 	Tank* tank_on;
 	sf::Texture barrelTexture;
 
@@ -27,6 +23,10 @@ public:
 	int getY();
 	void createSprite(std::string);
 	void setTank(Tank*);
+	int getHeight();
+	int getWidth();
+	void Move_Clock(double radius);
+	void Move_ConterClock(double radius);
 	Barrel(Tank*, std::string);
 };
 

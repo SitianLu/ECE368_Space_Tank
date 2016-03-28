@@ -3,25 +3,16 @@
 //
 
 #include "Tank_object.h"
-//#include <iostream>
-//#include "Global_constant.h"
-
+#include <math.h>
+#include "Global_constant.h"
 
 void Tank::setPosition(int a, int b) {
-    x = a;
-    y = b;
-    x_center = x + tankTexture.getSize().x;
-    y_center = y + tankTexture.getSize().y;
-    shape.setPosition(x,y);
+    x_edge = a;
+    y_edge = b;
+
+    shape.setPosition(x_edge,y_edge);
 }
 
-int Tank::getX() {
-    return x;
-}
-
-int Tank::getY() {
-    return y;
-}
 
 void Tank::createSprite(std::string path) {
 
@@ -32,13 +23,14 @@ void Tank::createSprite(std::string path) {
 
     shape.setTexture(tankTexture);
 
+    shape.setOrigin(tankTexture.getSize().x / 2, tankTexture.getSize().y);
+
 }
 
 void Tank::setPlanet(Planet* planet) {
 
     planet_on = planet;
-    setPosition(planet_on->x_center - tankTexture.getSize().x / 2, planet_on->y_coord - (tankTexture.getSize()).y);
-
+    setPosition(planet_on->x_center, planet_on->y_center - (int)planet_on->radius);
 
 }
 
@@ -47,12 +39,38 @@ Tank::Tank(Planet* planet, std::string path) {
     createSprite(path);
     setPlanet(planet);
 
+    rotation = 0.0;
+
 }
 
-int Tank::getCenterX() {
-  return x_center;
+int Tank::getEdgeX() {
+    return x_edge;
 }
 
-int Tank::getCenterY() {
-  return y_center;
+int Tank::getEdgeY() {
+    return y_edge;
+}
+
+double Tank::getPlanetRadius() {
+    return planet_on->getRadius();
+}
+
+void Tank::Move_Clock(double radius) {
+
+    rotation += radius;
+
+    shape.move((float) (getPlanetRadius() * (sin(rotation) - sin(rotation - radius))), (-1) * (float) (getPlanetRadius() * (cos(rotation) - cos(rotation - radius))));
+
+    shape.rotate((float) (radius * 180 / PI));
+
+}
+
+void Tank::Move_ConterClock(double radius) {
+
+    rotation -= radius;
+
+    shape.move((-1)*(float) (getPlanetRadius() * (sin(rotation + radius) - sin(rotation))), (float) (getPlanetRadius() * (cos(rotation + radius) - cos(rotation))) );
+
+    shape.rotate((float) ((-1) * radius* 180 / PI));
+
 }

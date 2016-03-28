@@ -12,26 +12,25 @@
 
 class Tank {
 private:
-    int x;
-    int y;
-    int x_center;
-    int y_center;
-    int rotation;
-    int tank_number;
+
+    int x_edge;
+    int y_edge;
     Planet* planet_on;
     sf::Texture tankTexture;
 
 public:
     sf::Sprite shape;
+    double rotation;
     void setPosition(int x, int y);
-    int getX();
-    int getY();
-    int getCenterX();
-    int getCenterY();
+    double getPlanetRadius();
+    int getEdgeX();
+    int getEdgeY();
     void createSprite(std::string);
     void setPlanet(Planet*);
     Tank(Planet*, std::string);
     friend class Barrel;
+    void Move_Clock(double radius);
+    void Move_ConterClock(double radius);
 };
 
 

@@ -15,17 +15,14 @@ Planet::Planet(int number, int x, int y, double mass, float radius, std::string 
     createShape();
     createSprite(path);
     setPosition(x,y);
-
 }
 
 void Planet::setPosition(int a, int b) {
-    x_coord = a;
-    y_coord = b;
 
-    x_center = x_coord + (int)radius;
-    y_center = y_coord + (int)radius;
+    x_center = a;
+    y_center = b;
 
-    shape.setPosition(x_coord, y_coord);
+    shape.setPosition(x_center, y_center);
 }
 
 void Planet::setMass(double m) {
@@ -34,14 +31,6 @@ void Planet::setMass(double m) {
 
 void Planet::setRadius(float r) {
     radius = r;
-}
-
-int Planet::getX() {
-    return x_coord;
-}
-
-int Planet::getY() {
-    return y_coord;
 }
 
 double Planet::getMass() {
@@ -60,9 +49,10 @@ double Planet::getArea() {
     return (radius * radius * PI);
 }
 
+
 sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
-    int distance_x = x_coord - bullet_x;
-    int distance_y = y_coord - bullet_y;
+    int distance_x = x_center - bullet_x;
+    int distance_y = y_center - bullet_y;
     sf::Vector2f gravity_force;
 
     gravity_force.x = G * BULLET_MASS * mass / distance_x;
@@ -74,6 +64,7 @@ sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
 void Planet::createShape() {
     sf::CircleShape base_circle(radius);
     shape = base_circle;
+    shape.setOrigin(sf::Vector2f(radius,radius));
 }
 
 void Planet::createSprite(std::string path) {
@@ -99,3 +90,8 @@ int Planet::getCenterX() {
 int Planet::getCenterY() {
     return y_center;
 }
+
+double Planet::getAngle(double edge_distance) {
+    return(360.0 * (edge_distance / getCircumference()));
+}
+

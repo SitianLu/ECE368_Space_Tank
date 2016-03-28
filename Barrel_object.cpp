@@ -2,29 +2,25 @@
 // Created by Young on 3/22/16.
 //
 
+#include <math.h>
 #include "Barrel_object.h"
 #include "Tank_object.h"
+#include "Global_constant.h"
 
 void Barrel::setPosition(int a, int b) {
-    x = a;
-    y = b;
-    int shift=90;
-    x_center = x + barrelTexture.getSize().x;
-    y_center = y + barrelTexture.getSize().y;
-    shape.setPosition(x, y);
-    sf::Vector2f origin=shape.getOrigin();
-    origin.x=origin.x+shift;
-    shape.setOrigin(origin);
-    shape.setPosition(x+200,y);
-    
+    x_origin = a;
+    y_origin = b;
+
+    shape.setPosition(x_origin,y_origin);
+
 }
 
 int Barrel::getX() {
-	return x;
+	return x_origin;
 }
 
 int Barrel::getY() {
-	return y;
+	return y_origin;
 }
 
 void Barrel::createSprite(std::string path) {
@@ -36,19 +32,45 @@ void Barrel::createSprite(std::string path) {
 
 	shape.setTexture(barrelTexture);
 
+	shape.setOrigin(barrelTexture.getSize().x - 20, barrelTexture.getSize().y / 2);
+
 }
 
 void Barrel::setTank(Tank* tank) {
 
 	tank_on = tank;
-	
-	setPosition(tank_on->x - barrelTexture.getSize().x / 4 - 8, tank_on->y + barrelTexture.getSize().y/4);
-	
+
+    setPosition(tank_on -> x_edge, tank_on -> y_edge - 93);
+
 }
 
 Barrel::Barrel(Tank* tank, std::string path) {
 
 	createSprite(path);
 	setTank(tank);
+
+}
+
+int Barrel::getHeight() {
+    return(barrelTexture.getSize().y);
+}
+
+int Barrel::getWidth() {
+    return(barrelTexture.getSize().x);
+}
+
+void Barrel::Move_Clock(double radius) {
+
+    shape.move((float) ((tank_on -> getPlanetRadius() + 93)  * (sin(tank_on -> rotation) - sin(tank_on -> rotation - radius))), (-1) * (float) ((tank_on -> getPlanetRadius() + 93) * (cos(tank_on -> rotation) - cos(tank_on -> rotation - radius))));
+
+    shape.rotate((float) (radius * 180 / PI));
+
+}
+
+void Barrel::Move_ConterClock(double radius) {
+
+    shape.move((float) ((-1) * (tank_on -> getPlanetRadius() + 93)  * (sin(tank_on -> rotation + radius) - sin(tank_on -> rotation))), (float) ((tank_on -> getPlanetRadius() + 93) * (cos(tank_on -> rotation + radius) - cos(tank_on -> rotation))));
+
+    shape.rotate((float) ((-1) * radius * 180 / PI));
 
 }

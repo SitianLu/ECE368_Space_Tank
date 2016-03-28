@@ -12,14 +12,13 @@
 
 class Planet {
 private:
-    int x_coord;
-    int y_coord;
     int x_center;
     int y_center;
     double mass;
     float radius;
     int number;
     sf::Texture planetTexture;
+
 
 public:
     sf::CircleShape shape;
@@ -30,8 +29,7 @@ public:
     void setRadius(float);
     void createShape();
     void createSprite(std::string);
-    int getX();
-    int getY();
+
     int getCenterX();
     int getCenterY();
     double getMass();
@@ -39,6 +37,7 @@ public:
     double getCircumference();
     double getArea();
 	sf::Vector2f getGravity(int, int);
+    double getAngle(double edge_distance);
     friend class Tank;
     friend class Barrel;
 };
