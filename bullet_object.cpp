@@ -1,4 +1,5 @@
 #include "bullet_object.h"
+#define TIME_COEFFICIENT 1.0
 
 void Bullet::setPosition(int x, int y)
 {
@@ -45,10 +46,16 @@ sf::Vector2f Bullet::getAccel( planet_node * head)
 
 void Bullet::veloChange(sf::Vector2f acceleration)
 {
-	velocity += acceleration;
+	velocity.x += acceleration.x*TIME_COEFFICIENT;
+	velocity.y += acceleration.y*TIME_COEFFICIENT;
 }
 
 void Bullet::inc_bullet(planet_node* list_head)
 {
-
+	sf::Vector2f acceleration = getAccel(list_head);
+	veloChange(acceleration);
+	sf::Vector2f displacement;
+	displacement.x = velocity.x*TIME_COEFFICIENT;
+	displacement.y = velocity.y*TIME_COEFFICIENT;
+	shape.move(displacement);
 }
