@@ -1,7 +1,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Planet_object.h"
+#include "bullet_object.h"
 #include "map_object.h"
 #include "Tank_object.h"
 #include "Barrel_object.h"
@@ -29,7 +29,9 @@ int main()
 	head->next->next = new planet_node;
 	head->next->next->value = &planet3;
 	head->next->next->next = NULL;
-    
+	map1.head = head;
+
+
     
     
     
