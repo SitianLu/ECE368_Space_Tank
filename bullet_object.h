@@ -12,8 +12,10 @@ public:
 	sf::CircleShape shape;
 	void setPosition(int x, int y);
 	sf::Vector2i getPosition();
-	sf::Vector2f getAccel(sf::Vector2f position,planet_node* head);
-	sf::Vector2f veloChange(sf::Vector2f acceleration);
-	void inc_bullet();
+	void createShape();
+	void createSprite(std::string);
+	sf::Vector2f getAccel(planet_node* head);
+	void veloChange(sf::Vector2f acceleration);
+	void inc_bullet(planet_node* list_head);
 
 };

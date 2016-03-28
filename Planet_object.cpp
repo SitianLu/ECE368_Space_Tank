@@ -60,10 +60,10 @@ double Planet::getArea() {
     return (radius * radius * PI);
 }
 
-struct Force Planet::getGravity(int bullet_x, int bullet_y) {
+sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
     int distance_x = x_coord - bullet_x;
     int distance_y = y_coord - bullet_y;
-    struct Force gravity_force;
+    sf::Vector2f gravity_force;
 
     gravity_force.x = G * BULLET_MASS * mass / distance_x;
     gravity_force.y = G * BULLET_MASS * mass / distance_y;

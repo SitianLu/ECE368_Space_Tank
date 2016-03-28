@@ -38,7 +38,7 @@ public:
     double getRadius();
     double getCircumference();
     double getArea();
-    struct Force getGravity(int, int);
+	sf::Vector2f getGravity(int, int);
     friend class Tank;
     friend class Barrel;
 };
