@@ -51,12 +51,15 @@ double Planet::getArea() {
 
 
 sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
-    int distance_x = x_center - bullet_x;
-    int distance_y = y_center - bullet_y;
-    sf::Vector2f gravity_force;
-
-    gravity_force.x = G * BULLET_MASS * mass / distance_x;
-    gravity_force.y = G * BULLET_MASS * mass / distance_y;
+    float distance_x = 900 - bullet_x;
+    float distance_y = 400 - bullet_y;
+	float distance = sqrt(pow(distance_x, 2) + pow(distance_y, 2));
+	float force_mag = G*mass*BULLET_MASS / distance;
+	sf::Vector2f r_hat(distance_x / distance, distance_y / distance);
+	sf::Vector2f gravity_force(0,0);
+	gravity_force.x = force_mag*r_hat.x;
+	gravity_force.y = force_mag*r_hat.y;
+	printf("FUNCTION IS CALLED\n FORCE X %f FORCE Y %f\n DISTANCE X %d DISTANCE Y %d\n UNIT VECTOR <%d",gravity_force.x,gravity_force.y,distance_x,distance_y);
 
     return(gravity_force);
 }

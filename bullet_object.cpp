@@ -1,5 +1,5 @@
 #include "bullet_object.h"
-#define TIME_COEFFICIENT 0.001
+#define TIME_COEFFICIENT 0.5	
 
 Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path) 
 {
@@ -39,12 +39,14 @@ void Bullet::createSprite(std::string path)
 
 sf::Vector2f Bullet::getAccel( planet_node * head)
 {
+	printf("getAccel is called\n");
 	sf::Vector2f force(0.0,0.0);
 	planet_node* inc = head;
-	while (inc->next != NULL)
+	while (inc != NULL)
 	{
 		force = force + inc->value->getGravity(x_coord,y_coord);
 		inc = inc->next;
+		
 	}
 	force.x /= mass;// It's not actually force at this point
 	force.y /= mass;// it's acceleration
@@ -72,5 +74,5 @@ void Bullet::inc_bullet(planet_node* list_head)
 	position = shape.getPosition();
 	x_coord = position.x;
 	y_coord = position.y;
-	//printf("%f %f \n", position.x, position.y);
+	printf("X COORDINATE %10f   Y COORDINATE%10f \n", position.x, position.y);
 }

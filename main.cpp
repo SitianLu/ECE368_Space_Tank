@@ -14,20 +14,24 @@ int main()
 
     map map1(1800, 800, "Space Tank");
     
-    Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
-    Planet planet2(2,300,300,2000000,250,"sprites/planets/earth.png");
-    Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
+    //Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
+    Planet planet2(2,900,400,2000000,150,"sprites/planets/earth.png");
+    //Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
 
-    Tank tank1(&planet2, "sprites/tanks/tank1.png");
+	Tank tank1 (&planet2, "sprites/tanks/tank1.png");
     Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
 
+	sf::Vector2f speed(0, 40);
+	Bullet bullet1(600, 400, 10, speed, "sprites/planets/hell.png");
+
 	planet_node *head = new planet_node;
-	head->value = &planet1;
-	head->next = new planet_node;
-	head->next->value = &planet2;
-	head->next->next = new planet_node;
-	head->next->next->value = &planet3;
-	head->next->next->next = NULL;
+	head->value = &planet2;
+	head->next = NULL;
+	//head->next = new planet_node;
+	//head->next->value = &planet2;
+	//head->next->next = new planet_node;
+	//head->next->next->value = &planet3;
+	//head->next->next->next = NULL;
 	map1.head = head;
 
 
@@ -54,7 +58,7 @@ int main()
         {
             map1.window.setKeyRepeatEnabled(true);
 
-            switch(Event.type) {
+			  switch(Event.type) {
                 case sf::Event::Closed: {
                     map1.window.close();
                     break;
@@ -102,14 +106,15 @@ int main()
             frameCounter = 0;
 
             // Any Anomation update goes here
-			planet1.shape.rotate(1);
+			planet2.shape.rotate(1);
+			bullet1.inc_bullet(map1.head);
         }
-        
+		
         
         map1.window.draw(map1.background);
-        map1.window.draw(planet1.shape);
+        //map1.window.draw(planet1.shape);
         map1.window.draw(planet2.shape);
-        map1.window.draw(planet3.shape);
+		map1.window.draw(bullet1.shape);
         map1.window.draw(barrel1.shape);
         map1.window.draw(tank1.shape);
         map1.window.display();
