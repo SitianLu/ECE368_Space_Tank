@@ -13,7 +13,7 @@ int main()
 {
 
     map map1(1800, 800, "Space Tank");
-    
+
     //Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
     Planet planet2(2,900,400,2000000,150,"sprites/planets/earth.png");
     //Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
@@ -35,12 +35,15 @@ int main()
 	map1.head = head;
 
 
-    
-    
-    
+
+
+
     enum Direction{Down, Left, Right, Up};
     float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
     sf::Vector2i source(1, Down); //Tell where the animation start
+
+    int bulletSpriteCounter = 0;
+	  bool bulletFired = false;
 
 
     sf::Clock clock;
@@ -87,6 +90,10 @@ int main()
                         tank1.Move_ConterClock(0.05);
                         barrel1.Move_ConterClock(0.05);
                     }
+                    if (Event.key.code == sf::Keyboard::Space)
+				            {
+					              bulletFired = true;
+				            }
                 }
 
                 case sf::Event::MouseButtonPressed:
@@ -108,9 +115,14 @@ int main()
             // Any Anomation update goes here
 			planet2.shape.rotate(1);
 			bullet1.inc_bullet(map1.head);
+      // Bullet Animation
+			bullet1.inc_bullet(map1.head);
+			bulletSpriteCounter++;
+			bulletSpriteCounter %= 4;
+			bullet1.shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 60, 0, 60, 15));
         }
-		
-        
+
+
         map1.window.draw(map1.background);
         //map1.window.draw(planet1.shape);
         map1.window.draw(planet2.shape);
@@ -120,6 +132,6 @@ int main()
         map1.window.display();
         map1.window.clear();
     }
-    
-    
+
+
 }

@@ -1,11 +1,11 @@
 #include "bullet_object.h"
-#define TIME_COEFFICIENT 0.5	
+#define TIME_COEFFICIENT 0.5
 
-Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path) 
+Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path)
 {
 	mass = mass_in;
 	velocity = velocity_in;
-	createShape();
+
 	createSprite(path);
 	setPosition(x, y);
 }
@@ -18,39 +18,35 @@ void Bullet::setPosition(int x, int y)
 
 sf::Vector2i Bullet::getPosition()
 {
-	return sf::Vector2i(x_coord,y_coord);
+	return sf::Vector2i(x_coord, y_coord);
 }
 
-void Bullet::createShape()
-{
-	sf::CircleShape base_circle(50.f);//Size of the bullet(subject to change)
-	shape = base_circle;
-}
 
 void Bullet::createSprite(std::string path)
 {
 	if (!bulletTexture.loadFromFile(path))
 	{
-		std::cout << "Error could not load bullet image" << std::endl;
+		std::cout << "Error could not load tank image" << std::endl;
 	}
-	bulletTexture.setSmooth(true);
-	shape.setTexture(&bulletTexture);
+
+	shape.setTexture(bulletTexture);
+	shape.setTextureRect(sf::IntRect(0, 0, 60, 15));
 }
 
-sf::Vector2f Bullet::getAccel( planet_node * head)
+sf::Vector2f Bullet::getAccel(planet_node * head)
 {
 	printf("getAccel is called\n");
-	sf::Vector2f force(0.0,0.0);
+	sf::Vector2f force(0.0, 0.0);
 	planet_node* inc = head;
 	while (inc != NULL)
 	{
-		force = force + inc->value->getGravity(x_coord,y_coord);
+		force = force + inc->value->getGravity(x_coord, y_coord);
 		inc = inc->next;
-		
+
 	}
 	force.x /= mass;// It's not actually force at this point
 	force.y /= mass;// it's acceleration
-	//printf("%f %f \n", force.x, force.y);
+					//printf("%f %f \n", force.x, force.y);
 	return force;
 }
 
