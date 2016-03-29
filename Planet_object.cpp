@@ -51,8 +51,8 @@ double Planet::getArea() {
 
 
 sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
-    float distance_x = 900 - bullet_x;
-    float distance_y = 400 - bullet_y;
+    float distance_x = x_center - bullet_x;
+    float distance_y = y_center - bullet_y;
 	float distance = sqrt(pow(distance_x, 2) + pow(distance_y, 2));
 	float force_mag = G*mass*BULLET_MASS / distance;
 	sf::Vector2f r_hat(distance_x / distance, distance_y / distance);

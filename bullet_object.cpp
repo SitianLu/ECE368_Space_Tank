@@ -1,6 +1,6 @@
 #include "bullet_object.h"
 #define TIME_COEFFICIENT 0.5
-
+#define PI 3.1415926535
 Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path)
 {
 	mass = mass_in;
@@ -65,6 +65,12 @@ void Bullet::inc_bullet(planet_node* list_head)
 	sf::Vector2f displacement;
 	displacement.x = velocity.x*TIME_COEFFICIENT;
 	displacement.y = velocity.y*TIME_COEFFICIENT;
+	//float angle;
+	//angle = atan(velocity.x / velocity.y);
+	//angle = angle * 180 / PI;
+	//angle = angle + 90;
+	//shape.setRotation(angle);
+	//printf("\nRotation is %f angle is %f\n", shape.getRotation(),angle);
 	shape.move(displacement);
 	sf::Vector2f position;
 	position = shape.getPosition();
