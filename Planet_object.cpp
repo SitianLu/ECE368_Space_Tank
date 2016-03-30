@@ -59,7 +59,7 @@ sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
 	sf::Vector2f gravity_force(0,0);
 	gravity_force.x = force_mag*r_hat.x;
 	gravity_force.y = force_mag*r_hat.y;
-	printf("FUNCTION IS CALLED\n FORCE X %f FORCE Y %f\n DISTANCE X %d DISTANCE Y %d\n UNIT VECTOR <%d",gravity_force.x,gravity_force.y,distance_x,distance_y);
+	//printf("FUNCTION IS CALLED\n FORCE X %f FORCE Y %f\n DISTANCE X %d DISTANCE Y %d\n UNIT VECTOR <%d",gravity_force.x,gravity_force.y,distance_x,distance_y);
 
     return(gravity_force);
 }
