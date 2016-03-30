@@ -5,13 +5,13 @@ class Bullet {
 private:
 	int x_coord;
 	int y_coord;
-	double mass;
+	float mass;
 	sf::Vector2f velocity;
 	sf::Texture bulletTexture;
 public:
 	bool destroy = false;
 	sf::Sprite shape;
-	Bullet(int x, int y, double mass, sf::Vector2f velocity, std::string path);
+	Bullet(int x, int y, float mass, sf::Vector2f velocity, std::string path);
 	void setPosition(int x, int y);
 	sf::Vector2i getPosition();
 

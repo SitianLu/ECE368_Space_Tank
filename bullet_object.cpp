@@ -1,7 +1,7 @@
 #include "bullet_object.h"
 #define TIME_COEFFICIENT 0.1
 #define PI 3.1415926535
-Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::string path)
+Bullet::Bullet(int x, int y, float mass_in, sf::Vector2f velocity_in, std::string path)
 {
 	mass = mass_in;
 	velocity = velocity_in;
@@ -9,12 +9,15 @@ Bullet::Bullet(int x, int y, double mass_in, sf::Vector2f velocity_in, std::stri
 	createSprite(path);
 	setPosition(x, y);
 }
+
+
 void Bullet::setPosition(int x, int y)
 {
 	x_coord = x;
 	y_coord = y;
-	shape.setPosition(x, y);
+	shape.setPosition(float(x), float(y));
 }
+
 
 sf::Vector2i Bullet::getPosition()
 {
@@ -22,60 +25,54 @@ sf::Vector2i Bullet::getPosition()
 }
 
 
+
 void Bullet::createSprite(std::string path)
 {
 	sf::IntRect box(0, 0, 60, 15);
 	if (!bulletTexture.loadFromFile(path))
 	{
-		std::cout << "Error could not load tank image" << std::endl;
+		std::cout << "Error could not load bullet image" << std::endl;
 	}
-
 	shape.setTexture(bulletTexture);
 	shape.setTextureRect(box);
 }
 
+
 sf::Vector2f Bullet::getAccel(planet_node * head)
 {
-	//printf("getAccel is called\n");
 	sf::Vector2f force(0.0, 0.0);
 	planet_node* inc = head;
-	while (inc != NULL)
+	while (inc != NULL) //Go through every planet in the list
 	{
-		force = force + inc->value->getGravity(x_coord, y_coord);
+		force = force + inc->value->getGravity(x_coord, y_coord); // Increase the total force by the force from the planet
 		inc = inc->next;
 
 	}
 	force.x /= mass;// It's not actually force at this point
 	force.y /= mass;// it's acceleration
-					//printf("%f %f \n", force.x, force.y);
 	return force;
 }
 
 
 
 void Bullet::veloChange(sf::Vector2f acceleration)
-{
-	velocity.x += acceleration.x*TIME_COEFFICIENT;
-	velocity.y += acceleration.y*TIME_COEFFICIENT;
+{ //Function makes changes to velocity using the recieved acceleration
+	velocity.x += acceleration.x*float(TIME_COEFFICIENT);
+	velocity.y += acceleration.y*float(TIME_COEFFICIENT);
 }
 
 void Bullet::inc_bullet(planet_node* list_head)
 {
-	sf::Vector2f acceleration = getAccel(list_head);
-	veloChange(acceleration);
-	sf::Vector2f displacement;
-	displacement.x = velocity.x*TIME_COEFFICIENT;
-	displacement.y = velocity.y*TIME_COEFFICIENT;
-	sf::Vector2f tanProps(velocity.x, (-1)*velocity.y);
-	float angle;
-	angle = atan2(tanProps.y , tanProps.x);
-	angle = angle * 180 / PI;
-	angle *= -1.f;
-	shape.setRotation(angle);
-	printf("\nRotation is %f angle is %f\n", shape.getRotation(),angle);
-	shape.move(displacement);
-	sf::Vector2f position;
-	position = shape.getPosition();
-	x_coord = position.x;
-	y_coord = position.y;
+	sf::Vector2f acceleration = getAccel(list_head); //Get the total acceleration on this iteration
+	veloChange(acceleration); // Modify the velocity using the recieved acceleration
+	sf::Vector2f displacement; //The amount of movement in one iteration
+	displacement.x = velocity.x*float(TIME_COEFFICIENT);
+	displacement.y = velocity.y*float(TIME_COEFFICIENT);
+	shape.move(displacement); // Make the move happen
+	float angle = atan2(velocity.y , velocity.x); //Get the angle of the velocity vector (from the horizontal)
+	angle = angle * 180 / float(PI); //Convert from radians to degrees
+	shape.setRotation(angle); //Set the angle of the object to the angle of the velocity vector
+	sf::Vector2f position = shape.getPosition();
+	x_coord = int(position.x);
+	y_coord = int(position.y);
 }

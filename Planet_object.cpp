@@ -55,12 +55,10 @@ sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
     float distance_y = y_center - bullet_y;
 	float distance = sqrt(pow(distance_x, 2) + pow(distance_y, 2));
 	float force_mag = G*mass*BULLET_MASS / distance;
-	sf::Vector2f r_hat(distance_x / distance, distance_y / distance);
+	sf::Vector2f r_hat(distance_x / distance, distance_y / distance); //Unit vector of distance/force
 	sf::Vector2f gravity_force(0,0);
 	gravity_force.x = force_mag*r_hat.x;
 	gravity_force.y = force_mag*r_hat.y;
-	//printf("FUNCTION IS CALLED\n FORCE X %f FORCE Y %f\n DISTANCE X %d DISTANCE Y %d\n UNIT VECTOR <%d",gravity_force.x,gravity_force.y,distance_x,distance_y);
-
     return(gravity_force);
 }
 
