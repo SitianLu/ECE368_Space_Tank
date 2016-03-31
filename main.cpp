@@ -18,8 +18,8 @@ int main()
     Planet planet2(2,900,400,2000000,150,"sprites/planets/earth.png");
     //Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
 
-	Tank tank1 (&planet2, "sprites/tanks/tank1.png");
-    Barrel barrel1(&tank1, "sprites/tanks/barrel1.png");
+	Tank tank1 (&planet2, "sprites/tanks/tank3.png");
+    Barrel barrel1(&tank1, "sprites/tanks/barrel3.png");
 
 	sf::Vector2f speed(5, 57);
 	Bullet bullet1(600, 400, 10, speed, "sprites/missile/missile_2_no_margin.png");

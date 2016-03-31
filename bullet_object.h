@@ -14,7 +14,6 @@ public:
 	Bullet(int x, int y, float mass, sf::Vector2f velocity, std::string path);
 	void setPosition(int x, int y);
 	sf::Vector2i getPosition();
-
 	void createSprite(std::string);
 	sf::Vector2f getAccel(planet_node* head);
 	void veloChange(sf::Vector2f acceleration);

@@ -32,7 +32,7 @@ void Barrel::createSprite(std::string path) {
 
 	shape.setTexture(barrelTexture);
 
-	shape.setOrigin(barrelTexture.getSize().x - 20, barrelTexture.getSize().y / 2);
+	shape.setOrigin(barrelTexture.getSize().x - BARREL_CENTER_OFFSET, barrelTexture.getSize().y / 2);
 
 }
 
@@ -40,7 +40,7 @@ void Barrel::setTank(Tank* tank) {
 
 	tank_on = tank;
 
-    setPosition(tank_on -> x_edge, tank_on -> y_edge - 93);
+    setPosition(tank_on -> x_edge, tank_on -> y_edge - BARREL_Y_OFFSET);
 
 }
 
@@ -61,7 +61,7 @@ int Barrel::getWidth() {
 
 void Barrel::Move_Clock(double radius) {
 
-    shape.move((float) ((tank_on -> getPlanetRadius() + 93)  * (sin(tank_on -> rotation) - sin(tank_on -> rotation - radius))), (-1) * (float) ((tank_on -> getPlanetRadius() + 93) * (cos(tank_on -> rotation) - cos(tank_on -> rotation - radius))));
+    shape.move((float) ((tank_on -> getPlanetRadius() + BARREL_Y_OFFSET)  * (sin(tank_on -> rotation) - sin(tank_on -> rotation - radius))), (-1) * (float) ((tank_on -> getPlanetRadius() + BARREL_Y_OFFSET) * (cos(tank_on -> rotation) - cos(tank_on -> rotation - radius))));
 
     shape.rotate((float) (radius * 180 / PI));
 
@@ -69,7 +69,7 @@ void Barrel::Move_Clock(double radius) {
 
 void Barrel::Move_ConterClock(double radius) {
 
-    shape.move((float) ((-1) * (tank_on -> getPlanetRadius() + 93)  * (sin(tank_on -> rotation + radius) - sin(tank_on -> rotation))), (float) ((tank_on -> getPlanetRadius() + 93) * (cos(tank_on -> rotation + radius) - cos(tank_on -> rotation))));
+    shape.move((float) ((-1) * (tank_on -> getPlanetRadius() + BARREL_Y_OFFSET)  * (sin(tank_on -> rotation + radius) - sin(tank_on -> rotation))), (float) ((tank_on -> getPlanetRadius() + BARREL_Y_OFFSET) * (cos(tank_on -> rotation + radius) - cos(tank_on -> rotation))));
 
     shape.rotate((float) ((-1) * radius * 180 / PI));
 
