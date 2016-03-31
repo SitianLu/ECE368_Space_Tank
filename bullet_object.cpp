@@ -1,3 +1,4 @@
+#include <math.h>
 #include "bullet_object.h"
 #define TIME_COEFFICIENT 0.1
 #define PI 3.1415926535
