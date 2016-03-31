@@ -154,6 +154,7 @@ int main()
 							edge = true;
 						}
 
+						//b.clear();			// this causes vector iterator + error
 
 					}
 
