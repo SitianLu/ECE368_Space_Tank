@@ -3,7 +3,7 @@
 #include <iostream>
 #include "bullet_object.h"
 #include "map_object.h"
-#include "Tank_object.h"
+//#include "Tank_object.h"
 #include "Barrel_object.h"
 #include "Global_constant.h"
 #include <string>
@@ -16,11 +16,13 @@ int main()
 {
 
 	bool edge;
+
+	//Build the window/map/background
 	map map1(1800, 800, "Space Tank");
 
-	//Planet planet1(1,500,500,2000000,150,"sprites/planets/red.png");
-	Planet planet2(2, 900, 400, 2000000, 150, "sprites/planets/earth.png");
-	//Planet planet3(3,1300,300,2000000,300,"sprites/planets/pink.png");
+	//Planet planet1(500,500,2000000,150,"sprites/planets/red.png");
+	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png");
+	//Planet planet3(1300,300,2000000,300,"sprites/planets/pink.png");
 
 	Tank tank1(&planet2, "sprites/tanks/tank3.png");
 	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png");
@@ -58,8 +60,6 @@ int main()
 	sf::Time time;
 	int index = 0;
 
-	barrel1.setTank(&tank1);
-
 
 	while (map1.window.isOpen())
 	{
@@ -77,13 +77,15 @@ int main()
 
 			case sf::Event::KeyPressed: {
 
-				if (Event.key.code == sf::Keyboard::Down)
+				if ((Event.key.code == sf::Keyboard::Down) && (barrel1.rotation >= -3))
 				{
+					barrel1.rotation += -1;
 					barrel1.shape.rotate((float)-1.0);
 				}
 
-				if (Event.key.code == sf::Keyboard::Up)
+				if ((Event.key.code == sf::Keyboard::Up) && (barrel1.rotation <= 65))
 				{
+					barrel1.rotation += 1;
 					barrel1.shape.rotate(1.0);
 				}
 

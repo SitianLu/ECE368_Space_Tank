@@ -49,6 +49,7 @@ Barrel::Barrel(Tank* tank, std::string path) {
 	createSprite(path);
 	setTank(tank);
 
+    rotation = 0;
 }
 
 int Barrel::getHeight() {
@@ -61,10 +62,12 @@ int Barrel::getWidth() {
 
 void Barrel::Move_Clock(double radius) {
 
-    shape.move((float) ((tank_on -> getPlanetRadius() + BARREL_Y_OFFSET)  * (sin(tank_on -> rotation) - sin(tank_on -> rotation - radius))), (-1) * (float) ((tank_on -> getPlanetRadius() + BARREL_Y_OFFSET) * (cos(tank_on -> rotation) - cos(tank_on -> rotation - radius))));
+		shape.move((float) ((tank_on->getPlanetRadius() + BARREL_Y_OFFSET) *
+							(sin(tank_on->rotation) - sin(tank_on->rotation - radius))), (-1) * (float) (
+				(tank_on->getPlanetRadius() + BARREL_Y_OFFSET) *
+				(cos(tank_on->rotation) - cos(tank_on->rotation - radius))));
 
-    shape.rotate((float) (radius * 180 / PI));
-
+		shape.rotate((float) (radius * 180 / PI));
 }
 
 void Barrel::Move_ConterClock(double radius) {

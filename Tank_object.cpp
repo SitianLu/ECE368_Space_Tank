@@ -59,7 +59,8 @@ void Tank::Move_Clock(double radius) {
 
     rotation += radius;
 
-    shape.move((float) (getPlanetRadius() * (sin(rotation) - sin(rotation - radius))), (-1) * (float) (getPlanetRadius() * (cos(rotation) - cos(rotation - radius))));
+    shape.move((float) (getPlanetRadius() * (sin(rotation) - sin(rotation - radius))),
+                   (-1) * (float) (getPlanetRadius() * (cos(rotation) - cos(rotation - radius))));
 
     shape.rotate((float) (radius * 180 / PI));
 
@@ -69,8 +70,9 @@ void Tank::Move_ConterClock(double radius) {
 
     rotation -= radius;
 
-    shape.move((-1)*(float) (getPlanetRadius() * (sin(rotation + radius) - sin(rotation))), (float) (getPlanetRadius() * (cos(rotation + radius) - cos(rotation))) );
+    shape.move((-1) * (float) (getPlanetRadius() * (sin(rotation + radius) - sin(rotation))),
+                   (float) (getPlanetRadius() * (cos(rotation + radius) - cos(rotation))));
 
-    shape.rotate((float) ((-1) * radius* 180 / PI));
+    shape.rotate((float) ((-1) * radius * 180 / PI));
 
 }

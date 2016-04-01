@@ -17,10 +17,10 @@ private:
     int y_edge;
     Planet* planet_on;
     sf::Texture tankTexture;
+    double rotation;
 
 public:
     sf::Sprite shape;
-    double rotation;
     void setPosition(int x, int y);
     double getPlanetRadius();
     int getEdgeX();

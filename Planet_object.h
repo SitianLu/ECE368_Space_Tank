@@ -16,13 +16,12 @@ private:
     int y_center;
     double mass;
     float radius;
-    int number;
     sf::Texture planetTexture;
 
 
 public:
     sf::CircleShape shape;
-    Planet(int number, int x, int y, double mass, float radius, std::string);
+    Planet(int x, int y, double mass, float radius, std::string);
     void setNumber(int);
     void setPosition(int, int);
     void setMass(double);

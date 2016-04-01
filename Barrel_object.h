@@ -18,6 +18,7 @@ private:
 
 public:
 	sf::Sprite shape;
+	int rotation;
 	void setPosition(int x, int y);
 	int getX();
 	int getY();
