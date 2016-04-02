@@ -8,19 +8,18 @@
 #include "Global_constant.h"
 #include <string>
 #include <math.h>
-#include <vector>
 
-bool collision_detect(std::vector<Bullet>b, Barrel barrel, Tank tank, Planet p);
+bool collision_detect(Bullet b, Tank tank, Barrel barrel, std::vector<Planet*> pln);
 
 int main()
 {
 
-	bool edge;
+	bool edge = false;
 
 	//Build the window/map/background
 	map map1(1800, 800, "Space Tank");
 
-	//Planet planet1(500,500,2000000,150,"sprites/planets/red.png");
+	Planet planet1(500,500,2000000,150,"sprites/planets/red.png");
 	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png");
 	//Planet planet3(1300,300,2000000,300,"sprites/planets/pink.png");
 
@@ -29,8 +28,9 @@ int main()
 
 	sf::Vector2f speed(5, 57);
 	Bullet bullet1(600, 400, 10, speed, "sprites/missile/missile_2_no_margin.png");
-	std::vector<Bullet> b;
-	b.push_back(bullet1);
+	std::vector<Planet*> planet_vector;
+	planet_vector.push_back(&planet1);
+	planet_vector.push_back(&planet2);
 
 	planet_node *head = new planet_node;
 	head->value = &planet2;
@@ -123,51 +123,48 @@ int main()
 			frameCounter = 0;
 
 			// Any Anomation update goes here
+			planet1.shape.rotate(0.2);
 			planet2.shape.rotate(1);
 			// Bullet Animation
 			//bullet1.shape.rotate(1);
-			if (!b.empty()) {
 
+			if (!collision_detect(bullet1, tank1, barrel1, planet_vector))
+			{
+				bullet1.inc_bullet(map1.head);
+				bullet1.createSprite("sprites/missile/missile_2_no_margin.png");
+				bulletSpriteCounter++;
+				bulletSpriteCounter %= 4;
+				bullet1.shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 60, 0, 60, 15));
+				edge = false;
 
-				if (!collision_detect(b, barrel1, tank1, planet2))
+			}
+			else
+			{
+
+				if (!edge)
 				{
-
-					b[0].inc_bullet(map1.head);
-					b[0].createSprite("sprites/missile/missile_2_no_margin.png");
+					std::cout << "Collision Detected!!" << std::endl;
+					bullet1.createSprite("sprites/explosions/explosion_1fix.png");
 					bulletSpriteCounter++;
-					bulletSpriteCounter %= 4;
-					b[0].shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 60, 0, 60, 15));
-					edge = false;
+					bulletSpriteCounter %= 17;
 
-				}
-				else
-				{
-
-					if (!edge)
+					bullet1.shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 65, 0, 65, 65));
+					if (bulletSpriteCounter == 16)
 					{
-						std::cout << "Collision Detected!!" << std::endl;
-						b[0].createSprite("sprites/explosions/explosion_1fix.png");
-						bulletSpriteCounter++;
-						bulletSpriteCounter %= 17;
-
-						b[0].shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 65, 0, 65, 65));
-						if (bulletSpriteCounter == 16)
-						{
-							edge = true;
-						}
-
-						//b.clear();			// this causes vector iterator + error
-
+						edge = true;
 					}
 
 				}
+
 			}
+
 
 		}
 		map1.window.draw(map1.background);
-		//map1.window.draw(planet1.shape);
+		map1.window.draw(planet1.shape);
+
 		map1.window.draw(planet2.shape);
-		map1.window.draw(b[0].shape);
+		map1.window.draw(bullet1.shape);
 		map1.window.draw(barrel1.shape);
 		map1.window.draw(tank1.shape);
 		map1.window.display();
@@ -177,16 +174,36 @@ int main()
 
 }
 
-bool collision_detect(std::vector<Bullet>b, Barrel barrel, Tank tank, Planet p)
+bool collision_detect(Bullet b, Tank tank, Barrel barrel, std::vector<Planet*> pln)
 {
+	int e = b.getPosition().x - barrel.getX();
+	int r = b.getPosition().y - barrel.getY();
 
-		if ((b[0].shape.getGlobalBounds().intersects(p.shape.getGlobalBounds()))
-			|| (b[0].shape.getGlobalBounds().intersects(tank.shape.getGlobalBounds()))
-			|| (b[0].shape.getGlobalBounds().intersects(barrel.shape.getGlobalBounds())))
+	//float t = (b.getPosition().x + b.shape.getTextureRect().width / 2) - tank.shape.getPosition().x+tank.shape.getTextureRect().width/2;
+	//float l = (b.getPosition().y + b.shape.getTextureRect().height / 2) - tank.shape.getPosition().y+tank.shape.getTextureRect().height/2;
+
+
+	bool bullet_barrel_detection = b.shape.getGlobalBounds().intersects(barrel.shape.getGlobalBounds());
+	bool bullet_tank_detection = b.shape.getGlobalBounds().intersects(tank.shape.getGlobalBounds());
+	//int bullet_tank_distance = sqrt(pow(t, 2) + pow(l, 2));
+	for (int i = 0; i < pln.size(); i++)
+	{
+		//planet_co = b.shape.getGlobalBounds().intersects(pln[i]->shape.getGlobalBounds());
+
+		bool bul_pln_distance = sqrt(pow(pln[i]->shape.getPosition().x - b.shape.getPosition().x, 2)
+			+ pow(pln[i]->shape.getPosition().y - b.shape.getPosition().y, 2)) >= pln[i]->getRadius() + 32;
+
+		if (!bul_pln_distance || bullet_barrel_detection || (bullet_tank_detection))
 		{
-
 			return true;
 		}
+
+	}
+
+	//int q = b.getPosition().x - p.getCenterX();
+	//int w = b.getPosition().y - p.getCenterY();
+
+	//int bullet_planet_distance = sqrt(pow(q, 2) + pow(w, 2));
 
 	return false;
 }
