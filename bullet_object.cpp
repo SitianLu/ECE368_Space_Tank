@@ -1,7 +1,7 @@
 #include <math.h>
 #include "bullet_object.h"
-#define TIME_COEFFICIENT 0.1
-#define PI 3.1415926535
+#include "Global_constant.h"
+
 Bullet::Bullet(int x, int y, float mass_in, sf::Vector2f velocity_in, std::string path)
 {
 	mass = mass_in;
@@ -36,6 +36,8 @@ void Bullet::createSprite(std::string path)
 	}
 	shape.setTexture(bulletTexture);
 	shape.setTextureRect(box);
+
+	shape.setOrigin(30,7.5);
 }
 
 
