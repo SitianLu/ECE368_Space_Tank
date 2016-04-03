@@ -37,7 +37,7 @@ void Bullet::createSprite(std::string path)
 	shape.setTexture(bulletTexture);
 	shape.setTextureRect(box);
 
-	shape.setOrigin(30,7.5);
+	shape.setOrigin(45,7);
 }
 
 
