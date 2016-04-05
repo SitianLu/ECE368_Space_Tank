@@ -26,7 +26,7 @@ int main()
 	Tank tank1(&planet2, "sprites/tanks/tank3.png");
 	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png");
 
-	sf::Vector2f speed(-40, -20);
+	sf::Vector2f speed(-40, 20);
 	Bullet bullet1(1500, 400, 10, speed, "sprites/missile/missile_2_no_margin.png");
 	std::vector<Planet*> planet_vector;
 	planet_vector.push_back(&planet1);
@@ -191,7 +191,7 @@ bool collision_detect(Bullet b, Tank tank, Barrel barrel, std::vector<Planet*> p
 		//planet_co = b.shape.getGlobalBounds().intersects(pln[i]->shape.getGlobalBounds());
 
 		bool bul_pln_distance = sqrt(pow(pln[i]->shape.getPosition().x - b.shape.getPosition().x, 2)
-			+ pow(pln[i]->shape.getPosition().y - b.shape.getPosition().y, 2)) >= pln[i]->getRadius() + 32;
+			+ pow(pln[i]->shape.getPosition().y - b.shape.getPosition().y, 2)) >= pln[i]->getRadius() + 10;
 
 		if (!bul_pln_distance || bullet_barrel_detection || (bullet_tank_detection))
 		{

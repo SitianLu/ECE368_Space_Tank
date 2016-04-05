@@ -72,10 +72,17 @@ void Bullet::inc_bullet(planet_node* list_head)
 	displacement.x = velocity.x*float(TIME_COEFFICIENT);
 	displacement.y = velocity.y*float(TIME_COEFFICIENT);
 	shape.move(displacement); // Make the move happen
-	float angle = atan2(velocity.y , velocity.x); //Get the angle of the velocity vector (from the horizontal)
-	angle = angle * 180 / float(PI); //Convert from radians to degrees
-	shape.setRotation(angle); //Set the angle of the object to the angle of the velocity vector
+	double angle = getAngle(); //Get the angle of the missile
+	shape.setRotation((float)angle); //Set the angle of the object to the angle of the velocity vector
 	sf::Vector2f position = shape.getPosition();
 	x_coord = int(position.x);
 	y_coord = int(position.y);
+}
+
+double Bullet::getAngle() {
+
+	double angle = atan2(velocity.y , velocity.x); //Get the angle of the velocity vector (from the horizontal)
+	angle = angle * 180 / float(PI); //Convert from radians to degrees
+
+	return(angle);
 }

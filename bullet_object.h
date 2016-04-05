@@ -18,5 +18,6 @@ public:
 	sf::Vector2f getAccel(planet_node* head);
 	void veloChange(sf::Vector2f acceleration);
 	void inc_bullet(planet_node* list_head);
+	double getAngle();
 
 };
