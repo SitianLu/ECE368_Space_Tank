@@ -14,6 +14,7 @@ Planet::Planet(int x, int y, double mass, float radius, std::string path) {
     createShape();
     createSprite(path);
     setPosition(x,y);
+    //addPlanet(Map, this);
 }
 
 void Planet::setPosition(int a, int b) {

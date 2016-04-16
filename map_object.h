@@ -13,7 +13,6 @@ private:
     sf::Texture backgroundTexture;
 
 public:
-	planet_node* head;
     sf::Sprite background;
     sf::RenderWindow window;
     map(int width, int length, std::string name);

@@ -1,14 +1,13 @@
 //
 // Created by Luris on 3/20/16.
 //
+#ifndef ECE368_SPACE_TANK_CLASS_DECLARATION_H
+#define ECE368_SPACE_TANK_CLASS_DECLARATION_H
+
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include<string>
 #include"Force_struct.h"
-
-#ifndef ECE368_SPACE_TANK_CLASS_DECLARATION_H
-#define ECE368_SPACE_TANK_CLASS_DECLARATION_H
-
 
 class Planet {
 private:
@@ -22,13 +21,11 @@ private:
 public:
     sf::CircleShape shape;
     Planet(int x, int y, double mass, float radius, std::string);
-    void setNumber(int);
     void setPosition(int, int);
     void setMass(double);
     void setRadius(float);
     void createShape();
     void createSprite(std::string);
-
     int getCenterX();
     int getCenterY();
     double getMass();
@@ -40,7 +37,6 @@ public:
     friend class Tank;
     friend class Barrel;
 };
-
 
 typedef struct planet_nodes {
 	Planet* value;

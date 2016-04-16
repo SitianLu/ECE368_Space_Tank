@@ -3,12 +3,12 @@
 #include <iostream>
 #include "bullet_object.h"
 #include "map_object.h"
+#include "Planet_list.h"
 //#include "Tank_object.h"
 #include "Barrel_object.h"
 #include "Global_constant.h"
 #include <string>
 #include <math.h>
-
 
 int main()
 {
@@ -25,27 +25,13 @@ int main()
 	Tank tank1(&planet1, "sprites/tanks/tank3.png");
 	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png");
 
-	sf::Vector2f speed(-30, 20);
+	sf::Vector2f speed(-20, 20);
 	Bullet bullet1(700, 10, 10, speed, "sprites/missile/missile_2_no_margin.png", "sprites/explosions/explosion_1fix.png");
-	std::vector<Planet*> planet_vector;
-	planet_vector.push_back(&planet1);
-	planet_vector.push_back(&planet2);
 
-	planet_node *head = new planet_node;
-	head->value = &planet1;
-	head->next = new planet_node;
-	head-> next -> value = &planet2;
-	head-> next -> next = NULL;
-	//head->next = new planet_node;
-	//head->next->value = &planet1;
-	//head->next->next = NULL;
-	//head->next->next = new planet_node;
-	//head->next->next->value = &planet3;
-	//head->next->next->next = NULL;
-	map1.head = head;
+	Planet_list planet_list;
 
-
-
+	planet_list.addPlanet(&planet1);
+	planet_list.addPlanet(&planet2);
 
 
 	enum Direction { Down, Left, Right, Up };
@@ -129,11 +115,11 @@ int main()
 			planet2.shape.rotate(1);
 
 			// Bullet Animation
-			bullet1.collision_detect(tank1, barrel1, map1.head);
+			bullet1.collision_detect(tank1, barrel1, planet_list.head);
 
 			if (!bullet1.explosion_detected)
 			{
-				bullet1.inc_bullet(map1.head);
+				bullet1.inc_bullet(planet_list.head);
 				bulletSpriteCounter++;
 				bulletSpriteCounter %= 4;
 				bullet1.bullet_shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 60, 0, 60, 15));
