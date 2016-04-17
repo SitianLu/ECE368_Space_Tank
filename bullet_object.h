@@ -19,14 +19,14 @@ public:
     bool explosion_detected;
 
     //Constructor
-    Bullet(int x, int y, float mass, sf::Vector2f velocity, std::string bullet_path, std::string explosion_path);
+    Bullet(int x, int y, float mass, sf::Vector2f velocity, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion);
 
     //Position & Origin set
 	void setBulletPosition(int x, int y);
     void setExplosionPosition(float x, float y);
 	sf::Vector2i getPosition();
-	void createBulletSprite(std::string);
-    void createExplosionSprite(std::string);
+	void createBulletSprite(sf::Texture*);
+    void createExplosionSprite(sf::Texture*);
 
     //Update position & angle & acceleration
 	sf::Vector2f getAccel(planet_node* head);

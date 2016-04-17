@@ -2,14 +2,14 @@
 #include "bullet_object.h"
 #include "Global_constant.h"
 
-Bullet::Bullet(int x, int y, float mass_in, sf::Vector2f velocity_in, std::string bullet_path, std::string explosion_path)
+Bullet::Bullet(int x, int y, float mass_in, sf::Vector2f velocity_in, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion)
 {
 	mass = mass_in;
 	velocity = velocity_in;
     explosion_detected = false;
 
-	createBulletSprite(bullet_path);
-    createExplosionSprite(explosion_path);
+	createBulletSprite(Texture_bullet);
+    createExplosionSprite(Texture_explosion);
     setBulletPosition(x, y);
 }
 
@@ -29,14 +29,11 @@ sf::Vector2i Bullet::getPosition()
 
 
 
-void Bullet::createBulletSprite(std::string path)
+void Bullet::createBulletSprite(sf::Texture* image)
 {
 	sf::IntRect box(0, 0, 60, 15);
-	if (!bulletTexture.loadFromFile(path))
-	{
-		std::cout << "Error could not load bullet image" << std::endl;
-	}
-	bullet_shape.setTexture(bulletTexture);
+
+	bullet_shape.setTexture(*image);
 	bullet_shape.setTextureRect(box);
 
 	bullet_shape.setOrigin(45, 7);
@@ -117,13 +114,10 @@ void Bullet::collision_detect(Tank tank, Barrel barrel, planet_node *head) {
     }
 }
 
-void Bullet::createExplosionSprite(std::string explosion_path) {
+void Bullet::createExplosionSprite(sf::Texture* image) {
     sf::IntRect box(0, 0, 65, 65);
-    if (!explosionTexture.loadFromFile(explosion_path))
-    {
-        std::cout << "Error could not load bullet image" << std::endl;
-    }
-    explosion_shape.setTexture(explosionTexture);
+
+    explosion_shape.setTexture(*image);
     explosion_shape.setTextureRect(box);
 
     explosion_shape.setOrigin(EXPLOSION_SPRITE_OFFSET, EXPLOSION_SPRITE_OFFSET);
