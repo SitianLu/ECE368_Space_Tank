@@ -16,8 +16,11 @@ private:
 	Tank* tank_on;
 	sf::Texture barrelTexture;
 
+
 public:
 	sf::Sprite shape;
+	sf::Sprite smoke_shape;
+	int smokeSpriteCounter;
 	float rotation;
 	float limitation;
 	void setPosition(int x, int y);
@@ -31,8 +34,7 @@ public:
 	void Move_ConterClock(double radius);
 	sf::Vector2f getLaunchPoint();
 	sf::Vector2f getInitialDirection();
+	void createSmokeSprite(sf::Texture * image);
+	void setSmokePosition(float x, float y);
 	Barrel(Tank*, std::string);
 };
-
-
-
