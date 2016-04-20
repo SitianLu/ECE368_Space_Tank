@@ -55,10 +55,8 @@ int main()
 	sf::Vector2i source(1, Down); //Tell where the animation start
 
 
-	int bulletSpriteCounter = 0;
-	int explosionSpriteCounter = 0;
 	bool bulletFired = false;
-
+	float power = 10.f;
 
 	sf::Clock clock;
 	sf::Time time;
@@ -81,16 +79,22 @@ int main()
 
 				case sf::Event::KeyPressed: {
 
-					if ((Event.key.code == sf::Keyboard::Down) && (barrel1.rotation >= -3))
+					if (Event.key.code == sf::Keyboard::Down)
 					{
-						barrel1.rotation += -1;
-						barrel1.shape.rotate((float)-1.0);
+						if (barrel1.limitation > -6) {
+							barrel1.rotation += -1;
+							barrel1.limitation += -1;
+							barrel1.shape.rotate((float) -1.0);
+						}
 					}
 
-					if ((Event.key.code == sf::Keyboard::Up) && (barrel1.rotation <= 65))
+					if (Event.key.code == sf::Keyboard::Up)
 					{
-						barrel1.rotation += 1;
-						barrel1.shape.rotate(1.0);
+						if (barrel1.limitation < 178) {
+							barrel1.rotation += 1;
+							barrel1.limitation += 1;
+							barrel1.shape.rotate(1.0);
+						}
 					}
 
 					if (Event.key.code == sf::Keyboard::Right)
@@ -106,15 +110,24 @@ int main()
 					}
 					if (Event.key.code == sf::Keyboard::Space)
 					{
-						explosionSpriteCounter = 0;
+						if (!bulletFired) {
 
-						if (bullet_current != NULL){
-							delete(bullet_current);
+							bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+
+							power = 5.f;
+
+							bulletFired = true;
 						}
+					}
+					if (Event.key.code == sf::Keyboard::Return) {
 
-						bullet_current = new Bullet(700, 10, 10, speed, &Bullet_Texture, &Explosion_Texture);
+						if (power <= 100) {
 
-						bulletFired = true;
+							power += 5.f;
+
+							std::cout << "Power: " << power <<std::endl;
+
+						}
 					}
 				}
 
@@ -140,21 +153,21 @@ int main()
 
 			if (bulletFired) {
 				// Bullet Animation
-				bullet_current->collision_detect(tank1, barrel1, planet_list.head);
+				bullet_current->collision_detect(tank1, planet_list.head, &map1);
 
 				if (!(bullet_current->explosion_detected)) {
 
-					bullet_current->inc_bullet(planet_list.head);
-					bulletSpriteCounter++;
-					bulletSpriteCounter %= 4;
-					bullet_current->bullet_shape.setTextureRect(sf::IntRect(bulletSpriteCounter * 60, 0, 60, 15));
+					bullet_current -> inc_bullet(planet_list.head);
+					bullet_current -> bulletSpriteCounter++;
+					bullet_current -> bulletSpriteCounter %= 4;
+					bullet_current->bullet_shape.setTextureRect(sf::IntRect(bullet_current -> bulletSpriteCounter * 60, 0, 60, 15));
 
 				}
-				else if (explosionSpriteCounter <= 16) {
+				else if (bullet_current -> explosionSpriteCounter <= 16) {
 
-					std::cout << "Collision Detected!!" << std::endl;
-					bullet_current->explosion_shape.setTextureRect(sf::IntRect(explosionSpriteCounter * 65, 0, 65, 65));
-					explosionSpriteCounter++;
+					//std::cout << "Collision Detected!!" << std::endl;
+					bullet_current->explosion_shape.setTextureRect(sf::IntRect(bullet_current -> explosionSpriteCounter * 65, 0, 65, 65));
+					bullet_current -> explosionSpriteCounter++;
 				}
 			}
 		}
@@ -166,7 +179,7 @@ int main()
 		map1.window.draw(barrel1.shape);
 		map1.window.draw(tank1.shape);
 		if (bulletFired) {
-			if ((bullet_current->explosion_detected) && (bullet_current->explosion_detected <= 16)) {
+			if ((bullet_current->explosion_detected) && (bullet_current -> explosionSpriteCounter <= 16)) {
 				map1.window.draw(bullet_current->explosion_shape);
 			}
 			else if (!bullet_current->explosion_detected) {
@@ -174,6 +187,7 @@ int main()
 			}
 			else { //If the explosion ends
 				bulletFired = false;
+				delete(bullet_current);
 			}
 		}
 		map1.window.display();

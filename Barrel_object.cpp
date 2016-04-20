@@ -50,6 +50,7 @@ Barrel::Barrel(Tank* tank, std::string path) {
 	setTank(tank);
 
     rotation = 0;
+	limitation = 0;
 }
 
 int Barrel::getHeight() {
@@ -62,12 +63,15 @@ int Barrel::getWidth() {
 
 void Barrel::Move_Clock(double radius) {
 
-		shape.move((float) ((tank_on->getPlanetRadius() + BARREL_Y_OFFSET) *
+	shape.move((float) ((tank_on->getPlanetRadius() + BARREL_Y_OFFSET) *
 							(sin(tank_on->rotation) - sin(tank_on->rotation - radius))), (-1) * (float) (
 				(tank_on->getPlanetRadius() + BARREL_Y_OFFSET) *
 				(cos(tank_on->rotation) - cos(tank_on->rotation - radius))));
 
-		shape.rotate((float) (radius * 180 / PI));
+	shape.rotate((float) (radius * 180 / PI));
+
+	rotation += (float) (radius * 180 / PI);
+
 }
 
 void Barrel::Move_ConterClock(double radius) {
@@ -76,4 +80,31 @@ void Barrel::Move_ConterClock(double radius) {
 
     shape.rotate((float) ((-1) * radius * 180 / PI));
 
+	rotation += (float) ((-1) * radius * 180 / PI);
+
+
 }
+
+sf::Vector2f Barrel::getLaunchPoint() {
+
+	sf::Vector2f launchPoint;
+
+	launchPoint.x = this->shape.getPosition().x - (float)cos((rotation / 180) * PI) * (this -> getWidth() + LAUNCH_OFFSET);
+	launchPoint.y = this->shape.getPosition().y - (float)sin((rotation / 180) * PI) * (this -> getWidth() + LAUNCH_OFFSET);
+
+	return launchPoint;
+}
+
+sf::Vector2f Barrel::getInitialDirection() {
+
+	sf::Vector2f initialDirection; //Create the unit vector for initial direction that follows the barrel direction
+
+	initialDirection.x = ((-1) * (float)cos((rotation / 180) * PI) * (this -> getWidth() + LAUNCH_OFFSET)) / (this -> getWidth());
+	initialDirection.y = ((-1) * (float)sin((rotation / 180) * PI) * (this -> getWidth() + LAUNCH_OFFSET)) / (this -> getWidth());
+
+	return(initialDirection);
+}
+
+
+
+

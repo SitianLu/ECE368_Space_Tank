@@ -2,29 +2,31 @@
 #include "bullet_object.h"
 #include "Global_constant.h"
 
-Bullet::Bullet(int x, int y, float mass_in, sf::Vector2f velocity_in, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion)
+Bullet::Bullet(sf::Vector2f position, float mass_in, sf::Vector2f velocity_in, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion)
 {
 	mass = mass_in;
 	velocity = velocity_in;
     explosion_detected = false;
+	bulletSpriteCounter = 0;
+	explosionSpriteCounter = 0;
 
 	createBulletSprite(Texture_bullet);
     createExplosionSprite(Texture_explosion);
-    setBulletPosition(x, y);
+    setBulletPosition(position.x, position.y);
 }
 
 
-void Bullet::setBulletPosition(int x, int y)
+void Bullet::setBulletPosition(float x, float y)
 {
 	x_coord = x;
 	y_coord = y;
-	bullet_shape.setPosition(float(x), float(y));
+	bullet_shape.setPosition(x, y);
 }
 
 
-sf::Vector2i Bullet::getPosition()
+sf::Vector2f Bullet::getPosition()
 {
-	return sf::Vector2i(x_coord, y_coord);
+	return sf::Vector2f(x_coord, y_coord);
 }
 
 
@@ -86,19 +88,19 @@ double Bullet::getAngle() {
 	return(angle);
 }
 
-void Bullet::collision_detect(Tank tank, Barrel barrel, planet_node *head) {
+void Bullet::collision_detect(Tank tank, planet_node *head, map* screen) {
 	bool bul_pln_distance = false;
 	bool bullet_tank_detection = false;
-	bool bullet_barrel_detection = false;
 	bool detected = false;
 
-	bullet_barrel_detection = bullet_shape.getGlobalBounds().intersects(barrel.shape.getGlobalBounds());
+	//Detect if it hits the tank
 	bullet_tank_detection = bullet_shape.getGlobalBounds().intersects(tank.shape.getGlobalBounds());
 
-	if (bullet_barrel_detection || bullet_tank_detection) {
+	if (bullet_tank_detection) {
 		detected = true;
 	}
 
+	//Detect if it hits the planet by distance
 	for (planet_node* current = head; current != NULL; current = current -> next){
 		bul_pln_distance = sqrt(pow(current->value->shape.getPosition().x - bullet_shape.getPosition().x, 2) + pow(current -> value -> shape.getPosition().y - bullet_shape.getPosition().y, 2)) >= (current-> value -> getRadius() + COLLISION_DETECT_OFFSET);
 
@@ -108,6 +110,12 @@ void Bullet::collision_detect(Tank tank, Barrel barrel, planet_node *head) {
 		}
 	}
 
+	//Detect if it hits the boundary of the screen
+	if ((bullet_shape.getPosition().x > screen -> x_limit) || (bullet_shape.getPosition().x < 0) || (bullet_shape.getPosition().y > screen -> y_limit) || (bullet_shape.getPosition().y < 0)) {
+		detected = true;
+	}
+
+	//If detected, set the explosion position
     if (detected) {
         explosion_detected = true;
         setExplosionPosition(bullet_shape.getPosition().x, bullet_shape.getPosition().y);

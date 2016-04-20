@@ -18,7 +18,8 @@ private:
 
 public:
 	sf::Sprite shape;
-	int rotation;
+	float rotation;
+	float limitation;
 	void setPosition(int x, int y);
 	int getX();
 	int getY();
@@ -28,6 +29,8 @@ public:
 	int getWidth();
 	void Move_Clock(double radius);
 	void Move_ConterClock(double radius);
+	sf::Vector2f getLaunchPoint();
+	sf::Vector2f getInitialDirection();
 	Barrel(Tank*, std::string);
 };
 

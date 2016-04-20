@@ -1,30 +1,31 @@
 #include "Planet_object.h"
 #include "Tank_object.h"
 #include "Barrel_object.h"
+#include "map_object.h"
 
 
 class Bullet {
 private:
-	int x_coord;
-	int y_coord;
+	float x_coord;
+	float y_coord;
 	float mass;
 	sf::Vector2f velocity;
-	sf::Texture bulletTexture;
-    sf::Texture explosionTexture;
+
 public:
     //Initialization
-	bool destroy = false;
 	sf::Sprite bullet_shape;
     sf::Sprite explosion_shape;
     bool explosion_detected;
+    int bulletSpriteCounter;
+    int explosionSpriteCounter;
 
     //Constructor
-    Bullet(int x, int y, float mass, sf::Vector2f velocity, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion);
+    Bullet(sf::Vector2f position, float mass, sf::Vector2f velocity, sf::Texture* Texture_bullet, sf::Texture* Texture_explosion);
 
     //Position & Origin set
-	void setBulletPosition(int x, int y);
+	void setBulletPosition(float x, float y);
     void setExplosionPosition(float x, float y);
-	sf::Vector2i getPosition();
+	sf::Vector2f getPosition();
 	void createBulletSprite(sf::Texture*);
     void createExplosionSprite(sf::Texture*);
 
@@ -35,7 +36,7 @@ public:
 	double getAngle();
 
     //Detect collision
-    void collision_detect(Tank tank, Barrel barrel, planet_node* head);
+    void collision_detect(Tank tank, planet_node* head, map* screen);
 
     //Get the explosion position
     //sf::Vector2f getExplosionPosition()

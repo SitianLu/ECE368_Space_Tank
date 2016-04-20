@@ -33,7 +33,9 @@ std::string map::randomMap() {
 	return mapPath;
 }
 
-map::map(int width, int length, std::string name) {
-    createWindow(width, length, name);
+map::map(int width, int height, std::string name) {
+    createWindow(width, height, name);
     createSprite(randomMap());
+    x_limit = width;
+    y_limit = height;
 }

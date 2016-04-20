@@ -32,7 +32,7 @@ public:
     double getRadius();
     double getCircumference();
     double getArea();
-	sf::Vector2f getGravity(int, int);
+	sf::Vector2f getGravity(float, float);
     double getAngle(double edge_distance);
     friend class Tank;
     friend class Barrel;

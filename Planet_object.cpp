@@ -50,7 +50,7 @@ double Planet::getArea() {
 }
 
 
-sf::Vector2f Planet::getGravity(int bullet_x, int bullet_y) {
+sf::Vector2f Planet::getGravity(float bullet_x, float bullet_y) {
     float distance_x = x_center - bullet_x;
     float distance_y = y_center - bullet_y;
 	float distance = sqrt(pow(distance_x, 2) + pow(distance_y, 2));
