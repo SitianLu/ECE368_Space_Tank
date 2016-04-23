@@ -111,9 +111,9 @@ sf::Vector2f Barrel::getInitialDirection() {
 void Barrel::createSmokeSprite(std::string path) {
 	sf::IntRect box(0, 0, 65, 65);
 
-	if (smoke_Texture.loadFromFile(path))
+	if (!smoke_Texture.loadFromFile(path))
 	{
-		std::cout << "Error could not load barrel image" << std::endl;
+		std::cout << "Error could not load barrel image!!" << std::endl;
 	}
 
 	smoke_shape.setTexture(smoke_Texture);

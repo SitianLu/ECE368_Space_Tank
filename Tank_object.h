@@ -23,7 +23,6 @@ private:
 
 public:
 	sf::Sprite shape;
-	//sf::Font font;
 	sf::Text text;
 	void setPosition(int x, int y);
 	double getPlanetRadius();
@@ -31,15 +30,18 @@ public:
 	int getEdgeY();
 	void createSprite(std::string);
 	void setPlanet(Planet*);
-	Tank(Planet*, std::string);
+	Tank(Planet*, std::string, sf::Font*);
 	friend class Barrel;
 	void Move_Clock(double radius);
 	void Move_ConterClock(double radius);
 
 	void setHp(int a);
 	int getHp();
-	//void Tank::setText(sf::Font font);
 	void damageHp(int a);
+
+	void createHP(sf::Font *hp_Font);
+	void updateHP_Text();
+
 };
 
 

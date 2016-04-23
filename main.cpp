@@ -12,20 +12,22 @@
 
 int main()
 {
-
-	//Build the window/map/background
-	map map1(1800, 800, "Space Tank");
-
-	Planet planet1(500, 500, 2000000, 150, "sprites/planets/red.png");
-	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png");
-	Planet planet3(1500, 500, 2000000, 200, "sprites/planets/pink.png");
-
-	Tank tank1(&planet1, "sprites/tanks/tank3.png");
-	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
-
-	//Defined Global use of Bullet Texture and Explosion Texture
+	//Initialization for Global use variables
+	sf::Font hp_font;
 	sf::Texture Bullet_Texture;
 	sf::Texture Explosion_Texture;
+	Bullet* bullet_current = NULL;
+	Planet_list planet_list;
+	sf::Clock clock;
+	bool bulletFired = false;
+	float power = 10.f;
+	int index = 0;
+	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
+
+
+	if (!hp_font.loadFromFile("Word_font/OpenSans-Regular.ttf")) {
+		std::cout << "Error could not load font" << std::endl;
+	}
 
 	if (!Bullet_Texture.loadFromFile("sprites/missile/missile_2_no_margin.png"))
 	{
@@ -37,57 +39,29 @@ int main()
 		std::cout << "Error could not load explosion image" << std::endl;
 	}
 
-	Bullet* bullet_current = NULL;
+	//Build the window/map/background
+	map map1(1800, 800, "Space Tank");
 
-	Planet_list planet_list;
+	Planet planet1(500, 500, 2000000, 150, "sprites/planets/red.png");
+	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png");
+	Planet planet3(1500, 500, 2000000, 200, "sprites/planets/pink.png");
 
 	planet_list.addPlanet(&planet1);
 	planet_list.addPlanet(&planet2);
 	planet_list.addPlanet(&planet3);
 
-    sf::Font f;
-    if (!f.loadFromFile("Word_font/OpenSans-Regular.ttf")) {
-        std::cout << "Error could not load font" << std::endl;
-    }
-
-	enum Direction { Down, Left, Right, Up };
-	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
-	sf::Vector2i source(1, Down); //Tell where the animation start
-
-
-	bool bulletFired = false;
-	float power = 10.f;
-
-	sf::Clock clock;
-	sf::Time time;
-	int index = 0;
+	Tank tank1(&planet1, "sprites/tanks/tank3.png", &hp_font);
+	Tank tank2(&planet3, "sprites/tanks/tank3.png", &hp_font);
+	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
+	Barrel barrel2(&tank2, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
 
 
 
 	while (map1.window.isOpen()) {
 		sf::Event Event;
 
-		/*Tank1 hp Text Configuration*/
-		std::string c = std::to_string(tank1.getHp());
-
-		tank1.text.setFont(f);
-		tank1.text.setCharacterSize(15);
-		tank1.text.setString("HP:" + c);
-		tank1.text.setColor(sf::Color::Green);
-
-		if (tank1.getHp() <= 60)
-		{
-			tank1.text.setColor(sf::Color::Yellow);
-		}
-		if (tank1.getHp() <= 30)
-		{
-			tank1.text.setColor(sf::Color::Red);
-		}
-
-
 		while (map1.window.pollEvent(Event)) {
 
-			tank1.text.setPosition(tank1.getEdgeX()-18, tank1.getEdgeY());
 			map1.window.setKeyRepeatEnabled(true);
 
 			switch (Event.type) {
@@ -138,8 +112,9 @@ int main()
 
 							barrel1.setSmokePosition(barrel1.getLaunchPoint().x, barrel1.getLaunchPoint().y);
 							barrel1.smokeSpriteCounter = 0;
+
 							bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
-							bullet_current->setDamage(10);
+							bullet_current->setDamage(BULLET_DAMAGE);
 
 							power = 5.f;
 
@@ -206,10 +181,10 @@ int main()
 					if (bullet_current->explosionSpriteCounter == 1) {
 						if (bullet_current->tankHit)
 						{
+							tank1.updateHP_Text();
 							std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
+
 						}
-
-
 					}
 				}
 			}
@@ -222,6 +197,9 @@ int main()
 		map1.window.draw(barrel1.shape);
 		map1.window.draw(tank1.shape);
 		map1.window.draw(tank1.text);
+		map1.window.draw(barrel2.shape);
+		map1.window.draw(tank2.shape);
+		map1.window.draw(tank2.text);
 
 		if (bulletFired) {
 			if (barrel1.smokeSpriteCounter <= 16)

@@ -61,13 +61,14 @@ void Tank::setPlanet(Planet* planet) {
 
 }
 
-Tank::Tank(Planet* planet, std::string path) {
-
-	createSprite(path);
-	setPlanet(planet);
+Tank::Tank(Planet* planet, std::string tank_path, sf::Font* hp_font) {
 
 	rotation = 0.0;
 	setHp(INITIALHP);
+
+	createSprite(tank_path);
+	setPlanet(planet);
+	createHP(hp_font);
 
 }
 
@@ -92,6 +93,11 @@ void Tank::Move_Clock(double radius) {
 
 	shape.rotate((float)(radius * 180 / PI));
 
+	text.move((float)((getPlanetRadius() - HP_TEXTOFFSET) * (sin(rotation) - sin(rotation - radius))),
+			  (-1) * (float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
+
+	text.rotate((float)(radius * 180 / PI));
+
 }
 
 void Tank::Move_ConterClock(double radius) {
@@ -103,4 +109,41 @@ void Tank::Move_ConterClock(double radius) {
 
 	shape.rotate((float)((-1) * radius * 180 / PI));
 
+	text.move((-1) * (float)((getPlanetRadius() - HP_TEXTOFFSET) * (sin(rotation) - sin(rotation - radius))),
+			  (float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
+
+	text.rotate((float)((-1) * radius * 180 / PI));
+
+
 }
+
+void Tank::createHP(sf::Font *hp_Font) {
+
+	text.setFont(*hp_Font);
+	text.setCharacterSize(HP_TEXTSIZE);
+	text.setString("HP:" + std::to_string(hp));
+	text.setColor(sf::Color::Green);
+
+	text.setOrigin(25, 12);
+
+	text.setPosition(getEdgeX(), getEdgeY() + HP_TEXTOFFSET);
+
+}
+
+void Tank::updateHP_Text() {
+	text.setString("HP:" + std::to_string(hp));
+	if (hp <= 60)
+	{
+		text.setColor(sf::Color::Yellow);
+	}
+	if (hp <= 30)
+	{
+		text.setColor(sf::Color::Red);
+	}
+}
+
+
+
+
+
+
