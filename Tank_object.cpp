@@ -67,7 +67,7 @@ Tank::Tank(Planet* planet, std::string path) {
 	setPlanet(planet);
 
 	rotation = 0.0;
-	hp = 100;
+	setHp(INITIALHP);
 
 }
 

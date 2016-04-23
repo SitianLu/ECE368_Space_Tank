@@ -43,8 +43,8 @@ public:
 	//sf::Vector2f getExplosionPosition()
 
 
-	void Bullet::setDamage(int damage);
-	int Bullet::getDamage();
+	void setDamage(int damage);
+	int getDamage();
 	bool tankHit;
 
 

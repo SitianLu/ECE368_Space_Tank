@@ -21,12 +21,11 @@ int main()
 	Planet planet3(1500, 500, 2000000, 200, "sprites/planets/pink.png");
 
 	Tank tank1(&planet1, "sprites/tanks/tank3.png");
-	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png");
+	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
 
 	//Defined Global use of Bullet Texture and Explosion Texture
 	sf::Texture Bullet_Texture;
 	sf::Texture Explosion_Texture;
-	sf::Texture Smoke_Texture;
 
 	if (!Bullet_Texture.loadFromFile("sprites/missile/missile_2_no_margin.png"))
 	{
@@ -37,17 +36,8 @@ int main()
 	{
 		std::cout << "Error could not load explosion image" << std::endl;
 	}
-	if (!Smoke_Texture.loadFromFile("sprites/explosions/smoke_140_64.png"))
-	{
-		std::cout << "Error could not load smoke image" << std::endl;
-	}
-	//////////
 
 	Bullet* bullet_current = NULL;
-
-
-	sf::Vector2f speed(-40, 20);
-
 
 	Planet_list planet_list;
 
@@ -55,6 +45,10 @@ int main()
 	planet_list.addPlanet(&planet2);
 	planet_list.addPlanet(&planet3);
 
+    sf::Font f;
+    if (!f.loadFromFile("Word_font/OpenSans-Regular.ttf")) {
+        std::cout << "Error could not load font" << std::endl;
+    }
 
 	enum Direction { Down, Left, Right, Up };
 	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
@@ -68,11 +62,6 @@ int main()
 	sf::Time time;
 	int index = 0;
 
-	sf::Font f;
-	if (!f.loadFromFile("Word_font/OpenSans-Regular.ttf")) {
-		std::cout << "Error could not load font" << std::endl;
-	}
-
 
 
 	while (map1.window.isOpen()) {
@@ -81,11 +70,11 @@ int main()
 		/*Tank1 hp Text Configuration*/
 		std::string c = std::to_string(tank1.getHp());
 
-
 		tank1.text.setFont(f);
 		tank1.text.setCharacterSize(15);
 		tank1.text.setString("HP:" + c);
 		tank1.text.setColor(sf::Color::Green);
+
 		if (tank1.getHp() <= 60)
 		{
 			tank1.text.setColor(sf::Color::Yellow);
@@ -96,87 +85,87 @@ int main()
 		}
 
 
-
-
-
 		while (map1.window.pollEvent(Event)) {
+
 			tank1.text.setPosition(tank1.getEdgeX()-18, tank1.getEdgeY());
 			map1.window.setKeyRepeatEnabled(true);
 
 			switch (Event.type) {
 
-			case sf::Event::Closed: {
-				map1.window.close();
-				break;
-			}
+				case sf::Event::Closed: {
+					map1.window.close();
+					break;
+				}
 
-			case sf::Event::KeyPressed: {
+				case sf::Event::KeyPressed: {
 
-				if (Event.key.code == sf::Keyboard::Down)
-				{
-					if (barrel1.limitation > -6) {
-						barrel1.rotation += -1;
-						barrel1.limitation += -1;
-						barrel1.shape.rotate((float)-1.0);
+					if (Event.key.code == sf::Keyboard::Down)
+					{
+						if (barrel1.limitation > -6) {
+							barrel1.rotation += -1;
+							barrel1.limitation += -1;
+							barrel1.shape.rotate((float)-1.0);
+						}
+					}
+
+					if (Event.key.code == sf::Keyboard::Up)
+					{
+						if (barrel1.limitation < 178) {
+							barrel1.rotation += 1;
+							barrel1.limitation += 1;
+							barrel1.shape.rotate(1.0);
+						}
+					}
+
+					if (Event.key.code == sf::Keyboard::Right)
+					{
+                        if (!bulletFired) {
+                            tank1.Move_Clock(0.05);
+                            barrel1.Move_Clock(0.05);
+                        }
+					}
+
+					if (Event.key.code == sf::Keyboard::Left)
+					{
+                        if (!bulletFired) {
+                            tank1.Move_ConterClock(0.05);
+                            barrel1.Move_ConterClock(0.05);
+                        }
+					}
+					if (Event.key.code == sf::Keyboard::Space)
+					{
+						if (!bulletFired) {
+
+							barrel1.setSmokePosition(barrel1.getLaunchPoint().x, barrel1.getLaunchPoint().y);
+							barrel1.smokeSpriteCounter = 0;
+							bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+							bullet_current->setDamage(10);
+
+							power = 5.f;
+
+							bulletFired = true;
+						}
+					}
+					if (Event.key.code == sf::Keyboard::Return) {
+
+						if (power <= 100) {
+
+							power += 5.f;
+
+							std::cout << "Power: " << power << std::endl;
+
+						}
 					}
 				}
 
-				if (Event.key.code == sf::Keyboard::Up)
-				{
-					if (barrel1.limitation < 178) {
-						barrel1.rotation += 1;
-						barrel1.limitation += 1;
-						barrel1.shape.rotate(1.0);
-					}
-				}
+				case sf::Event::MouseButtonPressed: {
 
-				if (Event.key.code == sf::Keyboard::Right)
-				{
-					tank1.Move_Clock(0.05);
-					barrel1.Move_Clock(0.05);
-				}
-
-				if (Event.key.code == sf::Keyboard::Left)
-				{
-					tank1.Move_ConterClock(0.05);
-					barrel1.Move_ConterClock(0.05);
-				}
-				if (Event.key.code == sf::Keyboard::Space)
-				{
-					if (!bulletFired) {
-
-						barrel1.createSmokeSprite(&Smoke_Texture);
-						barrel1.setSmokePosition(barrel1.getLaunchPoint().x, barrel1.getLaunchPoint().y);
-						barrel1.smokeSpriteCounter = 0;
-						bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
-						bullet_current->setDamage(10);
-
-						power = 5.f;
-
-						bulletFired = true;
-					}
-				}
-				if (Event.key.code == sf::Keyboard::Return) {
-
-					if (power <= 100) {
-
-						power += 5.f;
-
-						std::cout << "Power: " << power << std::endl;
-
+					if (Event.mouseButton.button == sf::Mouse::Left)
+					{
+						std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y << std::endl;
 					}
 				}
 			}
-
-			case sf::Event::MouseButtonPressed: {
-
-				if (Event.mouseButton.button == sf::Mouse::Left)
-				{
-					std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y << std::endl;
-				}
-			}
-			}
-
 		}
 
 
@@ -233,6 +222,7 @@ int main()
 		map1.window.draw(barrel1.shape);
 		map1.window.draw(tank1.shape);
 		map1.window.draw(tank1.text);
+
 		if (bulletFired) {
 			if (barrel1.smokeSpriteCounter <= 16)
 			{
@@ -249,6 +239,7 @@ int main()
 				delete(bullet_current);
 			}
 		}
+
 		map1.window.display();
 		map1.window.clear();
 	}

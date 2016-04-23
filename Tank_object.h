@@ -36,10 +36,10 @@ public:
 	void Move_Clock(double radius);
 	void Move_ConterClock(double radius);
 
-	void Tank::setHp(int a);
-	int Tank::getHp();
+	void setHp(int a);
+	int getHp();
 	//void Tank::setText(sf::Font font);
-	void Tank::damageHp(int a);
+	void damageHp(int a);
 };
 
 

@@ -44,9 +44,10 @@ void Barrel::setTank(Tank* tank) {
 
 }
 
-Barrel::Barrel(Tank* tank, std::string path) {
+Barrel::Barrel(Tank* tank, std::string barrel_path, std::string smoke_path) {
 
-	createSprite(path);
+	createSprite(barrel_path);
+	createSmokeSprite(smoke_path);
 	setTank(tank);
 
 	rotation = 0;
@@ -107,17 +108,23 @@ sf::Vector2f Barrel::getInitialDirection() {
 	return(initialDirection);
 }
 
-void Barrel::createSmokeSprite(sf::Texture* image) {
+void Barrel::createSmokeSprite(std::string path) {
 	sf::IntRect box(0, 0, 65, 65);
 
-	smoke_shape.setTexture(*image);
+	if (smoke_Texture.loadFromFile(path))
+	{
+		std::cout << "Error could not load barrel image" << std::endl;
+	}
+
+	smoke_shape.setTexture(smoke_Texture);
 	smoke_shape.setTextureRect(box);
 
-	smoke_shape.setOrigin(EXPLOSION_SPRITE_OFFSET, EXPLOSION_SPRITE_OFFSET);
+	smoke_shape.setOrigin(float(EXPLOSION_SPRITE_OFFSET * 2), EXPLOSION_SPRITE_OFFSET);
+	smoke_shape.rotate(180);
 }
 
 void Barrel::setSmokePosition(float x, float y) {
 
 	smoke_shape.setPosition(x, y);
-
+	smoke_shape.setRotation(180 + rotation);
 }

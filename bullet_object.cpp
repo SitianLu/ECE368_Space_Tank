@@ -89,6 +89,7 @@ double Bullet::getAngle() {
 }
 
 void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
+
 	bool bul_pln_distance = false;
 	bool bullet_tank_detection = false;
 	bool detected = false;
