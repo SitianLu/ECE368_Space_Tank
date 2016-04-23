@@ -10,6 +10,7 @@ private:
 	float y_coord;
 	float mass;
 	sf::Vector2f velocity;
+	int bullet_Damage;
 
 public:
 	//Initialization
@@ -36,10 +37,15 @@ public:
 	double getAngle();
 
 	//Detect collision
-	void collision_detect(Tank tank, planet_node* head, map* screen);
+	void collision_detect(Tank* tank, planet_node* head, map* screen);
 
 	//Get the explosion position
 	//sf::Vector2f getExplosionPosition()
+
+
+	void Bullet::setDamage(int damage);
+	int Bullet::getDamage();
+	bool tankHit;
 
 
 };

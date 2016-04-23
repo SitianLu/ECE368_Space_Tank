@@ -45,6 +45,7 @@ int main()
 
 	Bullet* bullet_current = NULL;
 
+
 	sf::Vector2f speed(-40, 20);
 
 
@@ -67,12 +68,39 @@ int main()
 	sf::Time time;
 	int index = 0;
 
+	sf::Font f;
+	if (!f.loadFromFile("Word_font/OpenSans-Regular.ttf")) {
+		std::cout << "Error could not load font" << std::endl;
+	}
+
+
 
 	while (map1.window.isOpen()) {
 		sf::Event Event;
 
-		while (map1.window.pollEvent(Event)) {
+		/*Tank1 hp Text Configuration*/
+		std::string c = std::to_string(tank1.getHp());
 
+
+		tank1.text.setFont(f);
+		tank1.text.setCharacterSize(15);
+		tank1.text.setString("HP:" + c);
+		tank1.text.setColor(sf::Color::Green);
+		if (tank1.getHp() <= 60)
+		{
+			tank1.text.setColor(sf::Color::Yellow);
+		}
+		if (tank1.getHp() <= 30)
+		{
+			tank1.text.setColor(sf::Color::Red);
+		}
+
+
+
+
+
+		while (map1.window.pollEvent(Event)) {
+			tank1.text.setPosition(tank1.getEdgeX()-18, tank1.getEdgeY());
 			map1.window.setKeyRepeatEnabled(true);
 
 			switch (Event.type) {
@@ -121,6 +149,7 @@ int main()
 						barrel1.setSmokePosition(barrel1.getLaunchPoint().x, barrel1.getLaunchPoint().y);
 						barrel1.smokeSpriteCounter = 0;
 						bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+						bullet_current->setDamage(10);
 
 						power = 5.f;
 
@@ -169,7 +198,7 @@ int main()
 				}
 
 				// Bullet Animation
-				bullet_current->collision_detect(tank1, planet_list.head, &map1);
+				bullet_current->collision_detect(&tank1, planet_list.head, &map1);
 
 				if (!(bullet_current->explosion_detected)) {
 
@@ -184,6 +213,15 @@ int main()
 					//std::cout << "Collision Detected!!" << std::endl;
 					bullet_current->explosion_shape.setTextureRect(sf::IntRect(bullet_current->explosionSpriteCounter * 65, 0, 65, 65));
 					bullet_current->explosionSpriteCounter++;
+
+					if (bullet_current->explosionSpriteCounter == 1) {
+						if (bullet_current->tankHit)
+						{
+							std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
+						}
+
+
+					}
 				}
 			}
 		}
@@ -194,6 +232,7 @@ int main()
 		map1.window.draw(planet3.shape);
 		map1.window.draw(barrel1.shape);
 		map1.window.draw(tank1.shape);
+		map1.window.draw(tank1.text);
 		if (bulletFired) {
 			if (barrel1.smokeSpriteCounter <= 16)
 			{

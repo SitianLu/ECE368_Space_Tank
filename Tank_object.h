@@ -13,24 +13,33 @@
 class Tank {
 private:
 
-    int x_edge;
-    int y_edge;
-    Planet* planet_on;
-    sf::Texture tankTexture;
-    double rotation;
+	int x_edge;
+	int y_edge;
+	Planet* planet_on;
+	sf::Texture tankTexture;
+	double rotation;
+	int hp;
+
 
 public:
-    sf::Sprite shape;
-    void setPosition(int x, int y);
-    double getPlanetRadius();
-    int getEdgeX();
-    int getEdgeY();
-    void createSprite(std::string);
-    void setPlanet(Planet*);
-    Tank(Planet*, std::string);
-    friend class Barrel;
-    void Move_Clock(double radius);
-    void Move_ConterClock(double radius);
+	sf::Sprite shape;
+	//sf::Font font;
+	sf::Text text;
+	void setPosition(int x, int y);
+	double getPlanetRadius();
+	int getEdgeX();
+	int getEdgeY();
+	void createSprite(std::string);
+	void setPlanet(Planet*);
+	Tank(Planet*, std::string);
+	friend class Barrel;
+	void Move_Clock(double radius);
+	void Move_ConterClock(double radius);
+
+	void Tank::setHp(int a);
+	int Tank::getHp();
+	//void Tank::setText(sf::Font font);
+	void Tank::damageHp(int a);
 };
 
 
