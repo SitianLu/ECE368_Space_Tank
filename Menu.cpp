@@ -18,14 +18,15 @@ void StartMenu() {
 	sf::RenderWindow window;
 	sf::Sprite Menu;
 	sf::Texture MenuTexture;
-	MenuTexture.loadFromFile("Sprites/Menu.jpg");
-	if (!MenuTexture.loadFromFile("SpritesMenu.jpg")) {
-		printf("Load error");
+
+	if (!MenuTexture.loadFromFile("sprites/Menu.jpg")) {
+		printf("Load error: Can not load Menu image");
 	}
 
 	Menu.setTexture(MenuTexture);
 	window.create(sf::VideoMode(1800, 1200), "Menu", sf::Style::Default);
 	window.setActive();
+
 	sf::Event MenuEvent;
 	while (window.isOpen()) {
 		while (window.pollEvent(MenuEvent)) {
@@ -35,7 +36,13 @@ void StartMenu() {
 				if (MenuEvent.key.code == sf::Keyboard::Space) {
 					MenuMusic.stop();
 					window.close();
+					break;
 				}
+			}
+			if (MenuEvent.type == sf::Event::Closed) {
+				window.close();
+				MenuMusic.stop();
+				break;
 			}
 		}
 	}

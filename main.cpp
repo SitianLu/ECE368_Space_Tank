@@ -10,6 +10,7 @@
 #include <string>
 #include <math.h>
 #include "Menu.h"
+#include "End_Menu.h"
 
 int main()
 {
@@ -28,6 +29,8 @@ int main()
 	float power = 5.f;
 	int index = 0;
 	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
+	bool End = false;
+	int winner = -1;
 
 	int window_W = 1800;
 	int window_H = 800;
@@ -80,6 +83,7 @@ int main()
 
 
 	StartMenu();
+
 	while (map1.window.isOpen()) {
 		sf::Event Event;
 		if (turn == 1)
@@ -236,6 +240,20 @@ int main()
 				map1.window.draw(tank_list[i].shape);
 				map1.window.draw(tank_list[i].text);
 			}
+			else {
+				End = true;
+				if (i == 0) {
+					winner = 1;
+				}
+				else {
+					winner = 0;
+				}
+				break;
+			}
+		}
+		if (End) {
+			map1.window.close();
+			break;
 		}
 
 		if (bulletFired) {
@@ -268,6 +286,10 @@ int main()
 
 		map1.window.display();
 		map1.window.clear();
+	}
+
+	if (winner != -1) {
+		End_menu(winner, &hp_font);
 	}
 
 
