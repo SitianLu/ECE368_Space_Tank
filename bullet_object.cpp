@@ -91,22 +91,40 @@ double Bullet::getAngle() {
 void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 
 	bool bul_pln_distance = false;
-	bool bullet_tank_detection = false;
+	bool bullet_tank_detection_0 = false;
+	bool bullet_tank_detection_1 = false;
 	bool detected = false;
 	tankHit = false;
 	static char counter;
 
 
 	//Detect if it hits the tank
-	bullet_tank_detection = bullet_shape.getGlobalBounds().intersects(tank->shape.getGlobalBounds());
+	bullet_tank_detection_0 = bullet_shape.getGlobalBounds().intersects(tank[0].shape.getGlobalBounds());
+	bullet_tank_detection_1 = bullet_shape.getGlobalBounds().intersects(tank[1].shape.getGlobalBounds());
 
-	if (bullet_tank_detection) {
+
+	if (bullet_tank_detection_0) {
 		detected = true;
 		tankHit = true;
 		counter++;
 		if (counter == 1)
 		{
-			tank->damageHp(bullet_Damage);
+			tank[0].damageHp(bullet_Damage);
+		}
+		else if (counter >= 17)
+		{
+			counter = 0;
+		}
+
+	}
+
+	if (bullet_tank_detection_1) {
+		detected = true;
+		tankHit = true;
+		counter++;
+		if (counter == 1)
+		{
+			tank[1].damageHp(bullet_Damage);
 		}
 		else if (counter >= 17)
 		{

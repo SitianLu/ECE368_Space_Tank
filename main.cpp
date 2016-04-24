@@ -19,6 +19,7 @@ int main()
 	Bullet* bullet_current = NULL;
 	Planet_list planet_list;
 	sf::Clock clock;
+	int turn = 0;
 	bool bulletFired = false;
 	float power = 10.f;
 	int index = 0;
@@ -51,10 +52,14 @@ int main()
 	planet_list.addPlanet(&planet3);
 
 	Tank tank1(&planet1, "sprites/tanks/tank3.png", &hp_font);
-	Tank tank2(&planet3, "sprites/tanks/tank3.png", &hp_font);
-	Barrel barrel1(&tank1, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
-	Barrel barrel2(&tank2, "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
+	Tank tank2(&planet3, "sprites/tanks/tank4.png", &hp_font);
+    Tank tank_list[2] = {tank1, tank2};
 
+    Barrel barrel1(&tank_list[0], "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
+	Barrel barrel2(&tank_list[1], "sprites/tanks/barrel4.png", "sprites/explosions/smoke_140_64.png");
+    Barrel barrel_list[2] = {barrel1, barrel2};
+
+    tank_list[0].text.setStyle(sf::Text::Bold);
 
 
 	while (map1.window.isOpen()) {
@@ -75,50 +80,51 @@ int main()
 
 					if (Event.key.code == sf::Keyboard::Down)
 					{
-						if (barrel1.limitation > -6) {
-							barrel1.rotation += -1;
-							barrel1.limitation += -1;
-							barrel1.shape.rotate((float)-1.0);
+						if (barrel_list[turn].limitation > -6) {
+							barrel_list[turn].rotation += -1;
+							barrel_list[turn].limitation += -1;
+							barrel_list[turn].shape.rotate((float)-1.0);
 						}
 					}
 
 					if (Event.key.code == sf::Keyboard::Up)
 					{
-						if (barrel1.limitation < 178) {
-							barrel1.rotation += 1;
-							barrel1.limitation += 1;
-							barrel1.shape.rotate(1.0);
+						if (barrel_list[turn].limitation < 178) {
+							barrel_list[turn].rotation += 1;
+							barrel_list[turn].limitation += 1;
+							barrel_list[turn].shape.rotate(1.0);
 						}
 					}
 
 					if (Event.key.code == sf::Keyboard::Right)
 					{
                         if (!bulletFired) {
-                            tank1.Move_Clock(0.05);
-                            barrel1.Move_Clock(0.05);
+                            tank_list[turn].Move_Clock(0.05);
+                            barrel_list[turn].Move_Clock(0.05);
                         }
 					}
 
 					if (Event.key.code == sf::Keyboard::Left)
 					{
                         if (!bulletFired) {
-                            tank1.Move_ConterClock(0.05);
-                            barrel1.Move_ConterClock(0.05);
+                            tank_list[turn].Move_ConterClock(0.05);
+                            barrel_list[turn].Move_ConterClock(0.05);
                         }
 					}
 					if (Event.key.code == sf::Keyboard::Space)
 					{
 						if (!bulletFired) {
 
-							barrel1.setSmokePosition(barrel1.getLaunchPoint().x, barrel1.getLaunchPoint().y);
-							barrel1.smokeSpriteCounter = 0;
+							barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
+							barrel_list[turn].smokeSpriteCounter = 0;
 
-							bullet_current = new Bullet(barrel1.getLaunchPoint(), 10, barrel1.getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+							bullet_current = new Bullet(barrel_list[turn].getLaunchPoint(), 10, barrel_list[turn].getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
 							bullet_current->setDamage(BULLET_DAMAGE);
 
 							power = 5.f;
 
 							bulletFired = true;
+
 						}
 					}
 					if (Event.key.code == sf::Keyboard::Return) {
@@ -149,20 +155,21 @@ int main()
 			frameCounter = 0;
 
 			// Any Anomation update goes here
-			planet1.shape.rotate(0.2);
-			planet2.shape.rotate(1);
+			planet1.shape.rotate(0.08);
+			planet2.shape.rotate(float(-0.07));
+            planet3.shape.rotate(0.09);
 
 			if (bulletFired) {
 
 				// Barrel Smoke Animation
-				if (barrel1.smokeSpriteCounter <= 16) {
+				if (barrel_list[turn].smokeSpriteCounter <= 16) {
 
-					barrel1.smoke_shape.setTextureRect(sf::IntRect(barrel1.smokeSpriteCounter * 140, 0, 140, 64));
-					barrel1.smokeSpriteCounter++;
+					barrel_list[turn].smoke_shape.setTextureRect(sf::IntRect(barrel_list[turn].smokeSpriteCounter * 140, 0, 140, 64));
+					barrel_list[turn].smokeSpriteCounter++;
 				}
 
 				// Bullet Animation
-				bullet_current->collision_detect(&tank1, planet_list.head, &map1);
+				bullet_current->collision_detect(tank_list, planet_list.head, &map1);
 
 				if (!(bullet_current->explosion_detected)) {
 
@@ -181,7 +188,8 @@ int main()
 					if (bullet_current->explosionSpriteCounter == 1) {
 						if (bullet_current->tankHit)
 						{
-							tank1.updateHP_Text();
+							tank_list[0].updateHP_Text();
+                            tank_list[1].updateHP_Text();
 							std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
 
 						}
@@ -194,17 +202,18 @@ int main()
 		map1.window.draw(planet1.shape);
 		map1.window.draw(planet2.shape);
 		map1.window.draw(planet3.shape);
-		map1.window.draw(barrel1.shape);
-		map1.window.draw(tank1.shape);
-		map1.window.draw(tank1.text);
-		map1.window.draw(barrel2.shape);
-		map1.window.draw(tank2.shape);
-		map1.window.draw(tank2.text);
+        for (int i = 0; i < 2; i++) {
+            if (tank_list[i].getHp() > 0) {
+                map1.window.draw(barrel_list[i].shape);
+                map1.window.draw(tank_list[i].shape);
+                map1.window.draw(tank_list[i].text);
+            }
+        }
 
 		if (bulletFired) {
-			if (barrel1.smokeSpriteCounter <= 16)
+			if (barrel_list[turn].smokeSpriteCounter <= 16)
 			{
-				map1.window.draw(barrel1.smoke_shape);
+				map1.window.draw(barrel_list[turn].smoke_shape);
 			}
 			if ((bullet_current->explosion_detected) && (bullet_current->explosionSpriteCounter <= 16)) {
 				map1.window.draw(bullet_current->explosion_shape);
@@ -215,6 +224,17 @@ int main()
 			else { //If the explosion ends
 				bulletFired = false;
 				delete(bullet_current);
+
+                tank_list[turn].text.setStyle(sf::Text::Regular);
+
+                if (turn == 0) {
+                    turn = 1;
+                }
+                else {
+                    turn = 0;
+                }
+
+                tank_list[turn].text.setStyle(sf::Text::Bold);
 			}
 		}
 
