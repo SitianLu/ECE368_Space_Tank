@@ -25,7 +25,7 @@ int main()
 	sf::Clock clock;
 	int turn = 0;
 	bool bulletFired = false;
-	float power = 10.f;
+	float power = 5.f;
 	int index = 0;
 	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
 
@@ -87,7 +87,7 @@ int main()
 			HUD_PWR.setColor(sf::Color(143, 27, 45));
 			HUD_TURN.setColor(sf::Color(143, 27, 45));
 		}
-		HUD_PWR.setString("Power: " + std::to_string(power) + " %");
+		HUD_PWR.setString("Power: " + std::to_string((int)power - 5) + " %");
 		HUD_TURN.setString("Turn: Player " + std::to_string(turn+1));
 
 		while (map1.window.pollEvent(Event)) {
@@ -154,9 +154,9 @@ int main()
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
 
-					if (power <= 100) {
+					if (power < 105) {
 
-						power += 0.5f;
+						power += 1.f;
 
 						std::cout << "Power: " << power << std::endl;
 
