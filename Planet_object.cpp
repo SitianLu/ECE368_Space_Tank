@@ -7,14 +7,14 @@
 #include <cmath>
 
 
-Planet::Planet(int x, int y, double mass, float radius, std::string path) {
+Planet::Planet(int x, int y, double mass, float radius, std::string path, sf::Font* font) {
 
 	setMass(mass);
 	setRadius(radius);
 	createShape();
 	createSprite(path);
 	setPosition(x, y);
-	//addPlanet(Map, this);
+	createText(font);
 }
 
 void Planet::setPosition(int a, int b) {
@@ -90,3 +90,19 @@ int Planet::getCenterY() {
 double Planet::getAngle(double edge_distance) {
 	return(360.0 * (edge_distance / getCircumference()));
 }
+
+void Planet::createText(sf::Font *font) {
+
+		Mass_text.setFont(*font);
+		Mass_text.setCharacterSize(MASS_TEXTSIZE);
+		Mass_text.setString("Mass: " + std::to_string((int)mass) + "KG");
+		Mass_text.setColor(sf::Color::White);
+		Mass_text.setStyle(sf::Text::Bold);
+
+		Mass_text.setOrigin(70, 20);
+
+		Mass_text.setPosition(x_center,y_center);
+
+}
+
+

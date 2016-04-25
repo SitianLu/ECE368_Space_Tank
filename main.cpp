@@ -24,6 +24,7 @@ int main()
 	Bullet* bullet_current = NULL;
 	Planet_list planet_list;
 	sf::Clock clock;
+	sf::Time time;
 
 	sf::Sound smokeSound;
 	sf::SoundBuffer smBuffer;
@@ -38,6 +39,8 @@ int main()
 	float frameCounter = 0, switchFrame = 10, frameSpeed = 500;
 	bool End = false;
 	int winner = -1;
+	int power_roll = -1;
+	bool scroll_flag = false;
 
 	int window_W = 1800;
 	int window_H = 800;
@@ -76,9 +79,9 @@ int main()
 	/* Build the window/map/background */
 	map map1(window_W, window_H, "Space Tank");
 
-	Planet planet1(500, 500, 2000000, 150, "sprites/planets/red.png");
-	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png");
-	Planet planet3(1500, 500, 2000000, 200, "sprites/planets/pink.png");
+	Planet planet1(500, 500, 1500000, 150, "sprites/planets/red.png", &hp_font);
+	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png", &hp_font);
+	Planet planet3(1500, 500, 3000000, 200, "sprites/planets/pink.png", &hp_font);
 
 	planet_list.addPlanet(&planet1);
 	planet_list.addPlanet(&planet2);
@@ -136,18 +139,18 @@ int main()
 				if (Event.key.code == sf::Keyboard::Down)
 				{
 					if (barrel_list[turn].limitation > -6) {
-						barrel_list[turn].rotation += -1;
-						barrel_list[turn].limitation += -1;
-						barrel_list[turn].shape.rotate((float)-1.0);
+						barrel_list[turn].rotation += -3;
+						barrel_list[turn].limitation += -3;
+						barrel_list[turn].shape.rotate((float)-3.0);
 					}
 				}
 
 				if (Event.key.code == sf::Keyboard::Up)
 				{
 					if (barrel_list[turn].limitation < 178) {
-						barrel_list[turn].rotation += 1;
-						barrel_list[turn].limitation += 1;
-						barrel_list[turn].shape.rotate(1.0);
+						barrel_list[turn].rotation += 3;
+						barrel_list[turn].limitation += 3;
+						barrel_list[turn].shape.rotate(3.0);
 					}
 				}
 
@@ -184,13 +187,22 @@ int main()
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
 
+					if (!bulletFired) {
+
+						if (power_roll == -1) {
+							power_roll = 1;
+						}
+						else {
+							power_roll = 2;
+						}
+					}
+					/*
 					if (power < 105) {
 
 						power += 1.f;
 
-						std::cout << "Power: " << power << std::endl;
-
 					}
+					 */
 				}
 
 			}
@@ -214,6 +226,19 @@ int main()
 			planet1.shape.rotate(0.08);
 			planet2.shape.rotate(float(-0.07));
 			planet3.shape.rotate(0.09);
+
+			if (power_roll == 1) {
+				if (power < 105 && !scroll_flag) {
+					power += 1.f;
+				}
+				else {
+					scroll_flag = true;
+					power -= 1.f;
+					if (power == 5) {
+						scroll_flag = false;
+					}
+				}
+			}
 
 			if (bulletFired) {
 
@@ -259,9 +284,10 @@ int main()
 		}
 
 		map1.window.draw(map1.background);
-		map1.window.draw(planet1.shape);
-		map1.window.draw(planet2.shape);
-		map1.window.draw(planet3.shape);
+		for (planet_node* current = planet_list.head; current != NULL; current = current -> next) {
+			map1.window.draw(current -> value -> shape);
+			map1.window.draw(current -> value -> Mass_text);
+		}
 		map1.window.draw(HUD_PWR);
 		map1.window.draw(HUD_TURN);
 		for (int i = 0; i < 2; i++) {
@@ -269,22 +295,18 @@ int main()
 				map1.window.draw(barrel_list[i].shape);
 				map1.window.draw(tank_list[i].shape);
 				map1.window.draw(tank_list[i].text);
+
 			} else {
-				End = true;
+
 				if (i == 0) {
 					winner = 1;
 				}
 				else {
 					winner = 0;
 				}
-				break;
 			}
 		}
 
-		if (End) {
-			map1.window.close();
-			break;
-		}
 
 		if (bulletFired) {
 			if (barrel_list[turn].smokeSpriteCounter <= 16)
@@ -299,8 +321,14 @@ int main()
 				map1.window.draw(bullet_current->bullet_shape);
 			}
 			else { //If the explosion ends
+				if (winner != -1) {
+					map1.window.close();
+					break;
+				}
+
 				bulletFired = false;
 				delete(bullet_current);
+				power_roll = -1;
 
 				tank_list[turn].text.setStyle(sf::Text::Regular);
 

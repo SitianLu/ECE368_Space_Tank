@@ -20,7 +20,8 @@ private:
 
 public:
 	sf::CircleShape shape;
-	Planet(int x, int y, double mass, float radius, std::string);
+	sf::Text Mass_text;
+	Planet(int x, int y, double mass, float radius, std::string, sf::Font* font);
 	void setPosition(int, int);
 	void setMass(double);
 	void setRadius(float);
@@ -32,6 +33,7 @@ public:
 	double getRadius();
 	double getCircumference();
 	double getArea();
+	void createText(sf::Font* font);
 	sf::Vector2f getGravity(float, float);
 	double getAngle(double edge_distance);
 	friend class Tank;

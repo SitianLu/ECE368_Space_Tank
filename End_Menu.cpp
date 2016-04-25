@@ -22,7 +22,7 @@ void End_menu(int turn, sf::Font* font) {
     statement.setFont(*font);
     statement.setCharacterSize(80);
     statement.setStyle(sf::Text::Bold);
-    statement.setString("Player " + std::to_string(turn + 1) + "Win the battle!!");
+    statement.setString("Player " + std::to_string(turn + 1) + "  wins the battle!!");
     statement.setColor(sf::Color::Red);
     statement.setPosition(200, 100);
 

@@ -145,7 +145,7 @@ void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 	}
 
 	//Detect if it hits the boundary of the screen
-	if ((bullet_shape.getPosition().x > screen->x_limit) || (bullet_shape.getPosition().x < 0) || (bullet_shape.getPosition().y > screen->y_limit) || (bullet_shape.getPosition().y < 0)) {
+	if ((bullet_shape.getPosition().x > screen->x_limit + SCREAN_OFFSET) || (bullet_shape.getPosition().x < -SCREAN_OFFSET) || (bullet_shape.getPosition().y > screen->y_limit + SCREAN_OFFSET) || (bullet_shape.getPosition().y < -SCREAN_OFFSET)) {
 		detected = true;
 		tankHit = false;
 	}
