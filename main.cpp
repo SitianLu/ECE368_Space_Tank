@@ -10,6 +10,7 @@
 #include <math.h>
 #include "Menu.h"
 #include "End_Menu.h"
+#include <SFML/Audio.hpp>
 
 int main()
 {
