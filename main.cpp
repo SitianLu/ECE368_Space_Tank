@@ -329,6 +329,7 @@ int main()
 				bulletFired = false;
 				delete(bullet_current);
 				power_roll = -1;
+				scroll_flag = false;
 
 				tank_list[turn].text.setStyle(sf::Text::Regular);
 
