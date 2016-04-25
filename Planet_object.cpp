@@ -9,85 +9,84 @@
 
 Planet::Planet(int x, int y, double mass, float radius, std::string path) {
 
-    setMass(mass);
-    setRadius(radius);
-    createShape();
-    createSprite(path);
-    setPosition(x,y);
-    //addPlanet(Map, this);
+	setMass(mass);
+	setRadius(radius);
+	createShape();
+	createSprite(path);
+	setPosition(x, y);
+	//addPlanet(Map, this);
 }
 
 void Planet::setPosition(int a, int b) {
 
-    x_center = a;
-    y_center = b;
+	x_center = a;
+	y_center = b;
 
-    shape.setPosition(x_center, y_center);
+	shape.setPosition(x_center, y_center);
 }
 
 void Planet::setMass(double m) {
-    mass = m;
+	mass = m;
 }
 
 void Planet::setRadius(float r) {
-    radius = r;
+	radius = r;
 }
 
 double Planet::getMass() {
-    return mass;
+	return mass;
 }
 
 double Planet::getRadius() {
-    return radius;
+	return radius;
 }
 
 double Planet::getCircumference() {
-    return (radius * 2 * PI);
+	return (radius * 2 * PI);
 }
 
 double Planet::getArea() {
-    return (radius * radius * PI);
+	return (radius * radius * PI);
 }
 
 
 sf::Vector2f Planet::getGravity(float bullet_x, float bullet_y) {
-    float distance_x = x_center - bullet_x;
-    float distance_y = y_center - bullet_y;
+	float distance_x = x_center - bullet_x;
+	float distance_y = y_center - bullet_y;
 	float distance = sqrt(pow(distance_x, 2) + pow(distance_y, 2));
 	float force_mag = G*mass*BULLET_MASS / distance;
 	sf::Vector2f r_hat(distance_x / distance, distance_y / distance); //Unit vector of distance/force
-	sf::Vector2f gravity_force(0,0);
+	sf::Vector2f gravity_force(0, 0);
 	gravity_force.x = force_mag*r_hat.x;
 	gravity_force.y = force_mag*r_hat.y;
-    return(gravity_force);
+	return(gravity_force);
 }
 
 void Planet::createShape() {
-    sf::CircleShape base_circle(radius);
-    shape = base_circle;
-    shape.setOrigin(sf::Vector2f(radius,radius));
+	sf::CircleShape base_circle(radius);
+	shape = base_circle;
+	shape.setOrigin(sf::Vector2f(radius, radius));
 }
 
 void Planet::createSprite(std::string path) {
 
-    if (!planetTexture.loadFromFile(path))
-    {
-        std::cout << "Error could not load planet image" << std::endl;
-    }
-    planetTexture.setSmooth(true);
-    shape.setTexture(&planetTexture);
+	if (!planetTexture.loadFromFile(path))
+	{
+		std::cout << "Error could not load planet image" << std::endl;
+	}
+	planetTexture.setSmooth(true);
+	shape.setTexture(&planetTexture);
 
 }
 
 int Planet::getCenterX() {
-    return x_center;
+	return x_center;
 }
 
 int Planet::getCenterY() {
-    return y_center;
+	return y_center;
 }
 
 double Planet::getAngle(double edge_distance) {
-    return(360.0 * (edge_distance / getCircumference()));
+	return(360.0 * (edge_distance / getCircumference()));
 }
-

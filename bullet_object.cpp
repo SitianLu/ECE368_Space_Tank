@@ -152,6 +152,7 @@ void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 
 	//If detected, set the explosion position
 	if (detected) {
+
 		explosion_detected = true;
 		setExplosionPosition(bullet_shape.getPosition().x, bullet_shape.getPosition().y);
 	}

@@ -4,7 +4,6 @@
 #include "bullet_object.h"
 #include "map_object.h"
 #include "Planet_list.h"
-//#include "Tank_object.h"
 #include "Barrel_object.h"
 #include "Global_constant.h"
 #include <string>
@@ -14,7 +13,7 @@
 
 int main()
 {
-	//Initialization for Global use variables
+	/* Initialization for Global use variables */
 	sf::Font hp_font;
 	sf::Font power_font;
 	sf::Text HUD_PWR;
@@ -24,6 +23,13 @@ int main()
 	Bullet* bullet_current = NULL;
 	Planet_list planet_list;
 	sf::Clock clock;
+
+	sf::Sound smokeSound;
+	sf::SoundBuffer smBuffer;
+
+	sf::Sound missileSound;
+	sf::SoundBuffer mBuffer;
+
 	int turn = 0;
 	bool bulletFired = false;
 	float power = 5.f;
@@ -34,6 +40,18 @@ int main()
 
 	int window_W = 1800;
 	int window_H = 800;
+
+	/* Loading multimedia and texture */
+
+	if (!smBuffer.loadFromFile("Sound/shot01.wav"))
+	{
+		std::cout << "Error could not load sound Bomb03.wav" << std::endl;
+	}
+
+	if (!mBuffer.loadFromFile("Sound/Bomb03.wav"))
+	{
+		std::cout << "Error could not load sound Bomb03.wav" << std::endl;
+	}
 
 	if (!power_font.loadFromFile("Word_font/OpenSans-bold.ttf")) {
 		std::cout << "Error could not load font" << std::endl;
@@ -53,7 +71,8 @@ int main()
 		std::cout << "Error could not load explosion image" << std::endl;
 	}
 
-	//Build the window/map/background
+
+	/* Build the window/map/background */
 	map map1(window_W, window_H, "Space Tank");
 
 	Planet planet1(500, 500, 2000000, 150, "sprites/planets/red.png");
@@ -83,16 +102,22 @@ int main()
 
 
 	StartMenu();
-
+	smokeSound.setBuffer(smBuffer);
+	missileSound.setBuffer(mBuffer);
 	while (map1.window.isOpen()) {
 		sf::Event Event;
+		if (turn == 0)
+		{
+			HUD_PWR.setColor(sf::Color::White);
+			HUD_TURN.setColor(sf::Color::White);
+		}
 		if (turn == 1)
 		{
 			HUD_PWR.setColor(sf::Color(143, 27, 45));
 			HUD_TURN.setColor(sf::Color(143, 27, 45));
 		}
 		HUD_PWR.setString("Power: " + std::to_string((int)power - 5) + " %");
-		HUD_TURN.setString("Turn: Player " + std::to_string(turn+1));
+		HUD_TURN.setString("Turn: Player " + std::to_string(turn + 1));
 
 		while (map1.window.pollEvent(Event)) {
 
@@ -146,7 +171,7 @@ int main()
 
 						barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
 						barrel_list[turn].smokeSpriteCounter = 0;
-
+						smokeSound.play();
 						bullet_current = new Bullet(barrel_list[turn].getLaunchPoint(), 10, barrel_list[turn].getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
 						bullet_current->setDamage(BULLET_DAMAGE);
 
@@ -211,13 +236,17 @@ int main()
 				}
 				else if (bullet_current->explosionSpriteCounter <= 16) {
 
+
 					//std::cout << "Collision Detected!!" << std::endl;
 					bullet_current->explosion_shape.setTextureRect(sf::IntRect(bullet_current->explosionSpriteCounter * 65, 0, 65, 65));
 					bullet_current->explosionSpriteCounter++;
 
 					if (bullet_current->explosionSpriteCounter == 1) {
+						//bullet_current->playExpMusic();
+						missileSound.play();
 						if (bullet_current->tankHit)
 						{
+
 							tank_list[0].updateHP_Text();
 							tank_list[1].updateHP_Text();
 							std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
@@ -239,8 +268,7 @@ int main()
 				map1.window.draw(barrel_list[i].shape);
 				map1.window.draw(tank_list[i].shape);
 				map1.window.draw(tank_list[i].text);
-			}
-			else {
+			} else {
 				End = true;
 				if (i == 0) {
 					winner = 1;
@@ -251,6 +279,7 @@ int main()
 				break;
 			}
 		}
+
 		if (End) {
 			map1.window.close();
 			break;
@@ -263,6 +292,7 @@ int main()
 			}
 			if ((bullet_current->explosion_detected) && (bullet_current->explosionSpriteCounter <= 16)) {
 				map1.window.draw(bullet_current->explosion_shape);
+
 			}
 			else if (!bullet_current->explosion_detected) {
 				map1.window.draw(bullet_current->bullet_shape);

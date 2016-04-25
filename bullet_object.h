@@ -45,6 +45,7 @@ public:
 
 	void setDamage(int damage);
 	int getDamage();
+
 	bool tankHit;
 
 

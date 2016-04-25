@@ -10,17 +10,17 @@
 
 class map {
 private:
-    sf::Texture backgroundTexture;
+	sf::Texture backgroundTexture;
 
 public:
-    sf::Sprite background;
-    sf::RenderWindow window;
-    int x_limit;
-    int y_limit;
-    map(int width, int length, std::string name);
-    void createWindow(int x, int y, std::string name);
-    void createSprite(std::string);
-    std::string randomMap();
+	sf::Sprite background;
+	sf::RenderWindow window;
+	int x_limit;
+	int y_limit;
+	map(int width, int length, std::string name);
+	void createWindow(int x, int y, std::string name);
+	void createSprite(std::string);
+	std::string randomMap();
 
 };
 

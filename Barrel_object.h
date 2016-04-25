@@ -9,18 +9,22 @@
 #include "Tank_object.h"
 
 
+
 class Barrel {
 private:
 	int x_origin;
 	int y_origin;
 	Tank* tank_on;
 	sf::Texture barrelTexture;
-    sf::Texture smoke_Texture;
+	sf::Texture smoke_Texture;
+
 
 
 public:
 	sf::Sprite shape;
 	sf::Sprite smoke_shape;
+
+
 	int smokeSpriteCounter;
 	float rotation;
 	float limitation;

@@ -10,20 +10,21 @@
 
 void map::createWindow(int x, int y, std::string name) {
 
-    window.create(sf::VideoMode(unsigned(x), unsigned(y)), name, sf::Style::Default);
+	window.create(sf::VideoMode(unsigned(x), unsigned(y)), name, sf::Style::Default);
 
 }
 
 void map::createSprite(std::string path) {
-    if (!backgroundTexture.loadFromFile(path))
-    {
-        std::cout << "Error could not load background image" << std::endl;
-    }
+	if (!backgroundTexture.loadFromFile(path))
+	{
+		std::cout << "Error could not load background image" << std::endl;
+	}
 
-    background.setTexture(backgroundTexture);
+	background.setTexture(backgroundTexture);
 }
 
 std::string map::randomMap() {
+	
 	int seed = arc4random() % 7;
 	std::stringstream ss;
 	ss << seed;
@@ -34,8 +35,8 @@ std::string map::randomMap() {
 }
 
 map::map(int width, int height, std::string name) {
-    createWindow(width, height, name);
-    createSprite(randomMap());
-    x_limit = width;
-    y_limit = height;
+	createWindow(width, height, name);
+	createSprite(randomMap());
+	x_limit = width;
+	y_limit = height;
 }

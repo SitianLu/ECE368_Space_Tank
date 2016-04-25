@@ -11,31 +11,31 @@
 
 class Planet {
 private:
-    int x_center;
-    int y_center;
-    double mass;
-    float radius;
-    sf::Texture planetTexture;
+	int x_center;
+	int y_center;
+	double mass;
+	float radius;
+	sf::Texture planetTexture;
 
 
 public:
-    sf::CircleShape shape;
-    Planet(int x, int y, double mass, float radius, std::string);
-    void setPosition(int, int);
-    void setMass(double);
-    void setRadius(float);
-    void createShape();
-    void createSprite(std::string);
-    int getCenterX();
-    int getCenterY();
-    double getMass();
-    double getRadius();
-    double getCircumference();
-    double getArea();
+	sf::CircleShape shape;
+	Planet(int x, int y, double mass, float radius, std::string);
+	void setPosition(int, int);
+	void setMass(double);
+	void setRadius(float);
+	void createShape();
+	void createSprite(std::string);
+	int getCenterX();
+	int getCenterY();
+	double getMass();
+	double getRadius();
+	double getCircumference();
+	double getArea();
 	sf::Vector2f getGravity(float, float);
-    double getAngle(double edge_distance);
-    friend class Tank;
-    friend class Barrel;
+	double getAngle(double edge_distance);
+	friend class Tank;
+	friend class Barrel;
 };
 
 typedef struct planet_nodes {

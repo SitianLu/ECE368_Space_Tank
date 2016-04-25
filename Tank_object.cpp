@@ -30,15 +30,6 @@ void Tank::damageHp(int a)
 	hp = hp - a;
 }
 
-/*void Tank::setText(sf::Font font)
-{
-	std::string c = std::to_string(getHp());
-	text.setFont(font);
-	text.setString("HP: "+c);
-	text.setColor(sf::Color::Green);
-	text.setPosition(300, 300);
-}*/
-
 
 
 void Tank::createSprite(std::string path) {
@@ -94,7 +85,7 @@ void Tank::Move_Clock(double radius) {
 	shape.rotate((float)(radius * 180 / PI));
 
 	text.move((float)((getPlanetRadius() - HP_TEXTOFFSET) * (sin(rotation) - sin(rotation - radius))),
-			  (-1) * (float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
+		(-1) * (float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
 
 	text.rotate((float)(radius * 180 / PI));
 
@@ -110,7 +101,7 @@ void Tank::Move_ConterClock(double radius) {
 	shape.rotate((float)((-1) * radius * 180 / PI));
 
 	text.move((-1) * (float)((getPlanetRadius() - HP_TEXTOFFSET) * (sin(rotation) - sin(rotation - radius))),
-			  (float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
+		(float)((getPlanetRadius() - HP_TEXTOFFSET) * (cos(rotation) - cos(rotation - radius))));
 
 	text.rotate((float)((-1) * radius * 180 / PI));
 
@@ -141,9 +132,3 @@ void Tank::updateHP_Text() {
 		text.setColor(sf::Color::Red);
 	}
 }
-
-
-
-
-
-
