@@ -275,7 +275,7 @@ int main()
 
 							tank_list[0].updateHP_Text();
 							tank_list[1].updateHP_Text();
-							std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
+							//std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
 
 						}
 					}
