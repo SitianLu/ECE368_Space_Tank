@@ -171,7 +171,7 @@ int main()
 				}
 				if (Event.key.code == sf::Keyboard::Space)
 				{
-					if (!bulletFired) {
+					if (!bulletFired && power_roll == 2) {
 
 						barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
 						barrel_list[turn].smokeSpriteCounter = 0;
