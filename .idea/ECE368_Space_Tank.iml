@@ -5,10 +5,11 @@
       <sourceFolder url="file://$MODULE_DIR$/Global_constant.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Planet_object.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/map_object.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/End_Menu.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Allocation.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/End_Menu.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/map_object.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/End_Menu.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/bullet_object.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Tank_object.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Menu.h" isTestSource="false" />
@@ -20,8 +21,9 @@
       <sourceFolder url="file://$MODULE_DIR$/Force_struct.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Planet_list.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/bullet_object.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Tank_object.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Allocation.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Barrel_object.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tank_object.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake_modules/FindSFML.cmake" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

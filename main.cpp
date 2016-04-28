@@ -11,6 +11,7 @@
 #include "Menu.h"
 #include "End_Menu.h"
 #include <SFML/Audio.hpp>
+#include "Allocation.h"
 
 int main()
 {
@@ -22,7 +23,6 @@ int main()
 	sf::Texture Bullet_Texture;
 	sf::Texture Explosion_Texture;
 	Bullet* bullet_current = NULL;
-	Planet_list planet_list;
 	sf::Clock clock;
 	sf::Time time;
 
@@ -31,6 +31,13 @@ int main()
 
 	sf::Sound missileSound;
 	sf::SoundBuffer mBuffer;
+
+	Tank* tank1 = NULL;
+	Tank* tank2 = NULL;
+	Barrel* barrel1 =  NULL;
+	Barrel* barrel2 =  NULL;
+	Planet_list planet_list;
+
 
 	int turn = 0;
 	bool bulletFired = false;
@@ -75,10 +82,10 @@ int main()
 		std::cout << "Error could not load explosion image" << std::endl;
 	}
 
-
 	/* Build the window/map/background */
 	map map1(window_W, window_H, "Space Tank");
 
+	/*
 	Planet planet1(500, 500, 1500000, 150, "sprites/planets/red.png", &hp_font);
 	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png", &hp_font);
 	Planet planet3(1500, 500, 3000000, 200, "sprites/planets/pink.png", &hp_font);
@@ -95,7 +102,16 @@ int main()
 	Barrel barrel2(&tank_list[1], "sprites/tanks/barrel4.png", "sprites/explosions/smoke_140_64.png");
 	Barrel barrel_list[2] = { barrel1, barrel2 };
 
-	tank_list[0].text.setStyle(sf::Text::Bold);
+	*/
+	GameSettings settings;
+	settings = StartMenu();
+
+	allocation_objects(settings.Map, settings.Player1, settings.Player2, &hp_font, &tank1, &tank2, &barrel1, &barrel2, &planet_list);
+
+	Tank tank_list[2] = {*tank1, *tank2};
+	Barrel barrel_list[2] = {*barrel1, *barrel2};
+
+	tank1 -> text.setStyle(sf::Text::Bold);
 
 	HUD_PWR.setFont(power_font);
 	HUD_PWR.setPosition(0, window_H - PWR_TEXTSIZE * 2);
@@ -104,10 +120,13 @@ int main()
 	HUD_TURN.setPosition(0, window_H - PWR_TEXTSIZE - TURN_TEXTSIZE - 50);
 
 
-
-	StartMenu();
 	smokeSound.setBuffer(smBuffer);
 	missileSound.setBuffer(mBuffer);
+
+	sf::Music BattleMusic;
+	BattleMusic.openFromFile("Sound/Battle.wav");
+	BattleMusic.play();
+
 	while (map1.window.isOpen()) {
 		sf::Event Event;
 		if (turn == 0)
@@ -223,9 +242,9 @@ int main()
 			frameCounter = 0;
 
 			// Any Anomation update goes here
-			planet1.shape.rotate(0.08);
-			planet2.shape.rotate(float(-0.07));
-			planet3.shape.rotate(0.09);
+			//planet1.shape.rotate(0.08);
+			//planet2.shape.rotate(float(-0.07));
+			//planet3.shape.rotate(0.09);
 
 			if (power_roll == 1) {
 				if (power < 105 && !scroll_flag) {
@@ -350,6 +369,7 @@ int main()
 
 	if (winner != -1) {
 		End_menu(winner, &hp_font);
+
 	}
 
 
