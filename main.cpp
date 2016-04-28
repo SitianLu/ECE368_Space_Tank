@@ -129,91 +129,91 @@ int main()
 
 			switch (Event.type) {
 
-			case sf::Event::Closed: {
-				map1.window.close();
-				break;
-			}
-
-			case sf::Event::KeyPressed: {
-
-				if (Event.key.code == sf::Keyboard::Down)
-				{
-					if (barrel_list[turn].limitation > -6) {
-						barrel_list[turn].rotation += -3;
-						barrel_list[turn].limitation += -3;
-						barrel_list[turn].shape.rotate((float)-3.0);
-					}
+				case sf::Event::Closed: {
+					map1.window.close();
+					break;
 				}
 
-				if (Event.key.code == sf::Keyboard::Up)
-				{
-					if (barrel_list[turn].limitation < 178) {
-						barrel_list[turn].rotation += 3;
-						barrel_list[turn].limitation += 3;
-						barrel_list[turn].shape.rotate(3.0);
-					}
-				}
+				case sf::Event::KeyPressed: {
 
-				if (Event.key.code == sf::Keyboard::Right)
-				{
-					if (!bulletFired) {
-						tank_list[turn].Move_Clock(0.05);
-						barrel_list[turn].Move_Clock(0.05);
-					}
-				}
-
-				if (Event.key.code == sf::Keyboard::Left)
-				{
-					if (!bulletFired) {
-						tank_list[turn].Move_ConterClock(0.05);
-						barrel_list[turn].Move_ConterClock(0.05);
-					}
-				}
-				if (Event.key.code == sf::Keyboard::Space)
-				{
-					if (!bulletFired && power_roll == 2) {
-
-						barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
-						barrel_list[turn].smokeSpriteCounter = 0;
-						smokeSound.play();
-						bullet_current = new Bullet(barrel_list[turn].getLaunchPoint(), 10, barrel_list[turn].getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
-						bullet_current->setDamage(BULLET_DAMAGE);
-
-						power = 5.f;
-
-						bulletFired = true;
-
-					}
-				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
-
-					if (!bulletFired) {
-
-						if (power_roll == -1) {
-							power_roll = 1;
-						}
-						else {
-							power_roll = 2;
+					if (Event.key.code == sf::Keyboard::Down)
+					{
+						if (barrel_list[turn].limitation > -6) {
+							barrel_list[turn].rotation += -3;
+							barrel_list[turn].limitation += -3;
+							barrel_list[turn].shape.rotate((float)-3.0);
 						}
 					}
-					/*
-					if (power < 105) {
 
-						power += 1.f;
-
+					if (Event.key.code == sf::Keyboard::Up)
+					{
+						if (barrel_list[turn].limitation < 178) {
+							barrel_list[turn].rotation += 3;
+							barrel_list[turn].limitation += 3;
+							barrel_list[turn].shape.rotate(3.0);
+						}
 					}
-					 */
+
+					if (Event.key.code == sf::Keyboard::Right)
+					{
+						if (!bulletFired) {
+							tank_list[turn].Move_Clock(0.05);
+							barrel_list[turn].Move_Clock(0.05);
+						}
+					}
+
+					if (Event.key.code == sf::Keyboard::Left)
+					{
+						if (!bulletFired) {
+							tank_list[turn].Move_ConterClock(0.05);
+							barrel_list[turn].Move_ConterClock(0.05);
+						}
+					}
+					if (Event.key.code == sf::Keyboard::Space)
+					{
+						if (!bulletFired && power_roll == 2) {
+
+							barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
+							barrel_list[turn].smokeSpriteCounter = 0;
+							smokeSound.play();
+							bullet_current = new Bullet(barrel_list[turn].getLaunchPoint(), 10, barrel_list[turn].getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+							bullet_current->setDamage(BULLET_DAMAGE);
+
+							power = 5.f;
+
+							bulletFired = true;
+
+						}
+					}
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+
+						if (!bulletFired) {
+
+							if (power_roll == -1) {
+								power_roll = 1;
+							}
+							else {
+								power_roll = 2;
+							}
+						}
+						/*
+						if (power < 105) {
+
+							power += 1.f;
+
+						}
+						 */
+					}
+
 				}
 
-			}
+				case sf::Event::MouseButtonPressed: {
 
-			case sf::Event::MouseButtonPressed: {
-
-				if (Event.mouseButton.button == sf::Mouse::Left)
-				{
-					std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y << std::endl;
+					if (Event.mouseButton.button == sf::Mouse::Left)
+					{
+						std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y << std::endl;
+					}
 				}
-			}
 			}
 		}
 
