@@ -35,7 +35,7 @@ public:
 	double getArea();
 	void createText(sf::Font* font);
 	void move(int xmove, int ymove);
-	void orbit(double angle, Planet * source);
+	void orbit(double angle, int,int);
 	sf::Vector2f getGravity(float, float);
 	double getAngle(double edge_distance);
 	friend class Tank;

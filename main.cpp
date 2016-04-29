@@ -239,10 +239,16 @@ int main()
 			frameCounter = 0;
 
 			// Any Anomation update goes here
-			//planet1.shape.rotate(0.08);
-			//planet2.shape.rotate(float(-0.07));
-			//planet3.shape.rotate(0.09);
-
+			if (settings.Map==1)
+			{
+				planet_list->tail->value.shape.rotate(float(-0.07));
+			}
+			else if (settings.Map==2)
+			{
+				planet_list->head->next->next->value.shape.orbit(float(-0.07),400,380);
+				planet_list->tail->value.shape.orbit(float(0.01),750,380);
+			}
+			planet_list->tail.shape.rotate()
 			if (power_roll == 1) {
 				if (power < 105 && !scroll_flag) {
 					power += 1.f;

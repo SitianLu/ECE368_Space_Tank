@@ -112,10 +112,10 @@ void Planet::move(int xmove, int ymove)
 	shape.move(xmove, ymove);
 }
 
-void Planet::orbit(double angle, Planet* source)
+void Planet::orbit(double angle, int xpos, int ypos)
 {
-	int delta_y = y_center - source->y_center;
-	int delta_x = x_center - source->x_center;
+	int delta_y = y_center - ypos;
+	int delta_x = x_center - xpos;
 	double length = sqrt(delta_y*delta_y + delta_x*delta_x);
 	double ang = atan2(delta_x, delta_y);
 	ang += angle;
