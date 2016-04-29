@@ -105,4 +105,23 @@ void Planet::createText(sf::Font *font) {
 
 }
 
+void Planet::move(int xmove, int ymove)
+{
+	x_center += xmove;
+	y_center += ymove;
+	shape.move(xmove, ymove);
+}
+
+void Planet::orbit(double angle, Planet* source)
+{
+	int delta_y = y_center - source->y_center;
+	int delta_x = x_center - source->x_center;
+	double length = sqrt(delta_y*delta_y + delta_x*delta_x);
+	double ang = atan2(delta_x, delta_y);
+	ang += angle;
+	x_center = source->x_center + length * sin(ang);
+	y_center = source->y_center + length * cos(ang);
+	shape.setPosition(x_center, y_center);
+}
+
 
