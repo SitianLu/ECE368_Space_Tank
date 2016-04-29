@@ -128,3 +128,6 @@ void Barrel::setSmokePosition(float x, float y) {
 	smoke_shape.setPosition(x, y);
 	smoke_shape.setRotation(180 + rotation);
 }
+
+
+

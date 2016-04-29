@@ -83,8 +83,6 @@ int main()
 	}
 
 	/* Build the window/map/background */
-	map map1(window_W, window_H, "Space Tank");
-
 	/*
 	Planet planet1(500, 500, 1500000, 150, "sprites/planets/red.png", &hp_font);
 	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png", &hp_font);
@@ -105,11 +103,13 @@ int main()
 	*/
 	GameSettings settings;
 	settings = StartMenu();
+	map map1(window_W, window_H, "Space Tank");
+
 
 	allocation_objects(settings.Map, settings.Player1, settings.Player2, &hp_font, &tank1, &tank2, &barrel1, &barrel2, &planet_list);
 
-	Tank tank_list[2] = {*tank1, *tank2};
-	Barrel barrel_list[2] = {*barrel1, *barrel2};
+	Tank* tank_list[2] = {tank1, tank2};
+	Barrel* barrel_list[2] = {barrel1, barrel2};
 
 	tank1 -> text.setStyle(sf::Text::Bold);
 
@@ -127,19 +127,18 @@ int main()
 	BattleMusic.openFromFile("Sound/Battle.wav");
 	BattleMusic.play();
 
+
 	while (map1.window.isOpen()) {
 		sf::Event Event;
-		if (turn == 0)
-		{
+		if (turn == 0) {
 			HUD_PWR.setColor(sf::Color::White);
 			HUD_TURN.setColor(sf::Color::White);
 		}
-		if (turn == 1)
-		{
-			HUD_PWR.setColor(sf::Color(143, 27, 45));
-			HUD_TURN.setColor(sf::Color(143, 27, 45));
+		if (turn == 1) {
+			HUD_PWR.setColor(sf::Color(70, 200, 45));
+			HUD_TURN.setColor(sf::Color(70, 200, 45));
 		}
-		HUD_PWR.setString("Power: " + std::to_string((int)power - 5) + " %");
+		HUD_PWR.setString("Power: " + std::to_string((int) power - 5) + " %");
 		HUD_TURN.setString("Turn: Player " + std::to_string(turn + 1));
 
 		while (map1.window.pollEvent(Event)) {
@@ -155,47 +154,45 @@ int main()
 
 				case sf::Event::KeyPressed: {
 
-					if (Event.key.code == sf::Keyboard::Down)
-					{
-						if (barrel_list[turn].limitation > -6) {
-							barrel_list[turn].rotation += -3;
-							barrel_list[turn].limitation += -3;
-							barrel_list[turn].shape.rotate((float)-3.0);
+					if (Event.key.code == sf::Keyboard::Down) {
+						if (barrel_list[turn]->limitation > -6) {
+							barrel_list[turn]->rotation += -3;
+							barrel_list[turn]->limitation += -3;
+							barrel_list[turn]->shape.rotate((float) -3.0);
 						}
 					}
 
-					if (Event.key.code == sf::Keyboard::Up)
-					{
-						if (barrel_list[turn].limitation < 178) {
-							barrel_list[turn].rotation += 3;
-							barrel_list[turn].limitation += 3;
-							barrel_list[turn].shape.rotate(3.0);
+					if (Event.key.code == sf::Keyboard::Up) {
+						if (barrel_list[turn]->limitation < 178) {
+							barrel_list[turn]->rotation += 3;
+							barrel_list[turn]->limitation += 3;
+							barrel_list[turn]->shape.rotate(3.0);
 						}
 					}
 
-					if (Event.key.code == sf::Keyboard::Right)
-					{
+					if (Event.key.code == sf::Keyboard::Right) {
 						if (!bulletFired) {
-							tank_list[turn].Move_Clock(0.05);
-							barrel_list[turn].Move_Clock(0.05);
+							tank_list[turn]->Move_Clock(0.05);
+							barrel_list[turn]->Move_Clock(0.05);
 						}
 					}
 
-					if (Event.key.code == sf::Keyboard::Left)
-					{
+					if (Event.key.code == sf::Keyboard::Left) {
 						if (!bulletFired) {
-							tank_list[turn].Move_ConterClock(0.05);
-							barrel_list[turn].Move_ConterClock(0.05);
+							tank_list[turn]->Move_ConterClock(0.05);
+							barrel_list[turn]->Move_ConterClock(0.05);
 						}
 					}
-					if (Event.key.code == sf::Keyboard::Space)
-					{
+					if (Event.key.code == sf::Keyboard::Space) {
 						if (!bulletFired && power_roll == 2) {
 
-							barrel_list[turn].setSmokePosition(barrel_list[turn].getLaunchPoint().x, barrel_list[turn].getLaunchPoint().y);
-							barrel_list[turn].smokeSpriteCounter = 0;
+							barrel_list[turn]->setSmokePosition(barrel_list[turn]->getLaunchPoint().x,
+																barrel_list[turn]->getLaunchPoint().y);
+							barrel_list[turn]->smokeSpriteCounter = 0;
 							smokeSound.play();
-							bullet_current = new Bullet(barrel_list[turn].getLaunchPoint(), 10, barrel_list[turn].getInitialDirection() * power, &Bullet_Texture, &Explosion_Texture);
+							bullet_current = new Bullet(barrel_list[turn]->getLaunchPoint(), 10,
+														barrel_list[turn]->getInitialDirection() * power,
+														&Bullet_Texture, &Explosion_Texture);
 							bullet_current->setDamage(BULLET_DAMAGE);
 
 							power = 5.f;
@@ -228,9 +225,9 @@ int main()
 
 				case sf::Event::MouseButtonPressed: {
 
-					if (Event.mouseButton.button == sf::Mouse::Left)
-					{
-						std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" << Event.mouseButton.y << std::endl;
+					if (Event.mouseButton.button == sf::Mouse::Left) {
+						std::cout << "Left Button Pressed at X:" << Event.mouseButton.x << "  Y:" <<
+						Event.mouseButton.y << std::endl;
 					}
 				}
 			}
@@ -262,10 +259,11 @@ int main()
 			if (bulletFired) {
 
 				// Barrel Smoke Animation
-				if (barrel_list[turn].smokeSpriteCounter <= 16) {
+				if (barrel_list[turn]->smokeSpriteCounter <= 16) {
 
-					barrel_list[turn].smoke_shape.setTextureRect(sf::IntRect(barrel_list[turn].smokeSpriteCounter * 140, 0, 140, 64));
-					barrel_list[turn].smokeSpriteCounter++;
+					barrel_list[turn]->smoke_shape.setTextureRect(
+							sf::IntRect(barrel_list[turn]->smokeSpriteCounter * 140, 0, 140, 64));
+					barrel_list[turn]->smokeSpriteCounter++;
 				}
 
 				// Bullet Animation
@@ -276,24 +274,25 @@ int main()
 					bullet_current->inc_bullet(planet_list.head);
 					bullet_current->bulletSpriteCounter++;
 					bullet_current->bulletSpriteCounter %= 4;
-					bullet_current->bullet_shape.setTextureRect(sf::IntRect(bullet_current->bulletSpriteCounter * 60, 0, 60, 15));
+					bullet_current->bullet_shape.setTextureRect(
+							sf::IntRect(bullet_current->bulletSpriteCounter * 60, 0, 60, 15));
 
 				}
 				else if (bullet_current->explosionSpriteCounter <= 16) {
 
 
 					//std::cout << "Collision Detected!!" << std::endl;
-					bullet_current->explosion_shape.setTextureRect(sf::IntRect(bullet_current->explosionSpriteCounter * 65, 0, 65, 65));
+					bullet_current->explosion_shape.setTextureRect(
+							sf::IntRect(bullet_current->explosionSpriteCounter * 65, 0, 65, 65));
 					bullet_current->explosionSpriteCounter++;
 
 					if (bullet_current->explosionSpriteCounter == 1) {
 						//bullet_current->playExpMusic();
 						missileSound.play();
-						if (bullet_current->tankHit)
-						{
+						if (bullet_current->tankHit) {
 
-							tank_list[0].updateHP_Text();
-							tank_list[1].updateHP_Text();
+							tank_list[0]->updateHP_Text();
+							tank_list[1]->updateHP_Text();
 							//std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
 
 						}
@@ -303,17 +302,17 @@ int main()
 		}
 
 		map1.window.draw(map1.background);
-		for (planet_node* current = planet_list.head; current != NULL; current = current -> next) {
-			map1.window.draw(current -> value -> shape);
-			map1.window.draw(current -> value -> Mass_text);
+		for (planet_node *current = planet_list.head; current != NULL; current = current->next) {
+			map1.window.draw(current->value->shape);
+			map1.window.draw(current->value->Mass_text);
 		}
 		map1.window.draw(HUD_PWR);
 		map1.window.draw(HUD_TURN);
 		for (int i = 0; i < 2; i++) {
-			if (tank_list[i].getHp() > 0) {
-				map1.window.draw(barrel_list[i].shape);
-				map1.window.draw(tank_list[i].shape);
-				map1.window.draw(tank_list[i].text);
+			if (tank_list[i]->getHp() > 0) {
+				map1.window.draw(barrel_list[i]->shape);
+				map1.window.draw(tank_list[i]->shape);
+				map1.window.draw(tank_list[i]->text);
 
 			} else {
 
@@ -328,9 +327,8 @@ int main()
 
 
 		if (bulletFired) {
-			if (barrel_list[turn].smokeSpriteCounter <= 16)
-			{
-				map1.window.draw(barrel_list[turn].smoke_shape);
+			if (barrel_list[turn]->smokeSpriteCounter <= 16) {
+				map1.window.draw(barrel_list[turn]->smoke_shape);
 			}
 			if ((bullet_current->explosion_detected) && (bullet_current->explosionSpriteCounter <= 16)) {
 				map1.window.draw(bullet_current->explosion_shape);
@@ -346,11 +344,11 @@ int main()
 				}
 
 				bulletFired = false;
-				delete(bullet_current);
+				delete (bullet_current);
 				power_roll = -1;
 				scroll_flag = false;
 
-				tank_list[turn].text.setStyle(sf::Text::Regular);
+				tank_list[turn]->text.setStyle(sf::Text::Regular);
 
 				if (turn == 0) {
 					turn = 1;
@@ -359,7 +357,7 @@ int main()
 					turn = 0;
 				}
 
-				tank_list[turn].text.setStyle(sf::Text::Bold);
+				tank_list[turn]->text.setStyle(sf::Text::Bold);
 			}
 		}
 
@@ -369,8 +367,11 @@ int main()
 
 	if (winner != -1) {
 		End_menu(winner, &hp_font);
-
 	}
 
+	delete (tank1);
+	delete (tank2);
+	delete (barrel1);
+	delete (barrel2);
 
 }

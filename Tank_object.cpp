@@ -132,3 +132,6 @@ void Tank::updateHP_Text() {
 		text.setColor(sf::Color::Red);
 	}
 }
+
+
+

@@ -25,3 +25,18 @@ void Planet_list::addPlanet(Planet *planet) {
     }
 
 }
+
+Planet_list::~Planet_list() {
+
+    planet_node* current = head;
+    planet_node* temp = NULL;
+
+    while (current != NULL) {
+        temp = current -> next;
+        delete(current);
+        current = temp;
+    }
+
+}
+
+

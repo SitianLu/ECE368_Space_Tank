@@ -88,7 +88,7 @@ double Bullet::getAngle() {
 	return(angle);
 }
 
-void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
+void Bullet::collision_detect(Tank* tank[], planet_node *head, map* screen) {
 
 	bool bul_pln_distance = false;
 	bool bullet_tank_detection_0 = false;
@@ -99,8 +99,8 @@ void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 
 
 	//Detect if it hits the tank
-	bullet_tank_detection_0 = bullet_shape.getGlobalBounds().intersects(tank[0].shape.getGlobalBounds());
-	bullet_tank_detection_1 = bullet_shape.getGlobalBounds().intersects(tank[1].shape.getGlobalBounds());
+	bullet_tank_detection_0 = bullet_shape.getGlobalBounds().intersects(tank[0] -> shape.getGlobalBounds());
+	bullet_tank_detection_1 = bullet_shape.getGlobalBounds().intersects(tank[1] -> shape.getGlobalBounds());
 
 
 	if (bullet_tank_detection_0) {
@@ -109,7 +109,7 @@ void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 		counter++;
 		if (counter == 1)
 		{
-			tank[0].damageHp(bullet_Damage);
+			tank[0] -> damageHp(bullet_Damage);
 		}
 		else if (counter >= 17)
 		{
@@ -124,7 +124,7 @@ void Bullet::collision_detect(Tank *tank, planet_node *head, map* screen) {
 		counter++;
 		if (counter == 1)
 		{
-			tank[1].damageHp(bullet_Damage);
+			tank[1] -> damageHp(bullet_Damage);
 		}
 		else if (counter >= 17)
 		{

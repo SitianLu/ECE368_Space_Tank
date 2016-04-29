@@ -14,6 +14,7 @@ public:
 
     Planet_list(void);
     void addPlanet (Planet*);
+    ~Planet_list();
 
 };
 

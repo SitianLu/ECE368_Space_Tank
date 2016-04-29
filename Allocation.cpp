@@ -13,13 +13,14 @@ void allocation_objects(int map_choice, std::string tank1_color, std::string tan
 
         planet_list -> addPlanet(tank1_on);
         planet_list -> addPlanet(tank2_on);
-        planet_list -> addPlanet(new Planet(900, 400, 2000000, 300, "sprites/planets/earth.png", font));
+        planet_list -> addPlanet(new Planet(900, 400, 6000000, 300, "sprites/planets/earth.png", font));
 
         *tank1 = new Tank(tank1_on, "sprites/tanks/tank" + tank1_color + ".png", font);
         *tank2 = new Tank(tank2_on, "sprites/tanks/tank" + tank2_color + ".png", font);
 
         *barrel1 = new Barrel(*tank1, "sprites/tanks/barrel" + tank1_color + ".png", "sprites/explosions/smoke_140_64.png");
         *barrel2 = new Barrel(*tank2, "sprites/tanks/barrel" + tank2_color + ".png", "sprites/explosions/smoke_140_64.png");
+
     }
 
     if (map_choice == 2) {
