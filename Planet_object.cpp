@@ -119,8 +119,8 @@ void Planet::orbit(double angle, int xpos, int ypos)
 	double length = sqrt(delta_y*delta_y + delta_x*delta_x);
 	double ang = atan2(delta_x, delta_y);
 	ang += angle;
-	x_center = source->x_center + length * sin(ang);
-	y_center = source->y_center + length * cos(ang);
+	x_center = xpos + length * sin(ang);
+	y_center = ypos + length * cos(ang);
 	shape.setPosition(x_center, y_center);
 }
 
