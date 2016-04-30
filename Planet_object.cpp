@@ -9,6 +9,7 @@
 
 Planet::Planet(int x, int y, double mass, float radius, std::string path, sf::Font* font) {
 
+	Mass_display = true;
 	setMass(mass);
 	setRadius(radius);
 	createShape();

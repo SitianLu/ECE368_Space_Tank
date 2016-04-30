@@ -21,6 +21,7 @@ private:
 public:
 	sf::CircleShape shape;
 	sf::Text Mass_text;
+	bool Mass_display;
 	Planet(int x, int y, double mass, float radius, std::string, sf::Font* font);
 	void setPosition(int, int);
 	void setMass(double);

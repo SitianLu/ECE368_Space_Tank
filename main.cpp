@@ -2,12 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "bullet_object.h"
-#include "map_object.h"
 #include "Planet_list.h"
-#include "Barrel_object.h"
 #include "Global_constant.h"
-#include <string>
-#include <math.h>
 #include "Menu.h"
 #include "End_Menu.h"
 #include <SFML/Audio.hpp>
@@ -82,25 +78,6 @@ int main()
 		std::cout << "Error could not load explosion image" << std::endl;
 	}
 
-	/* Build the window/map/background */
-	/*
-	Planet planet1(500, 500, 1500000, 150, "sprites/planets/red.png", &hp_font);
-	Planet planet2(900, 400, 2000000, 150, "sprites/planets/earth.png", &hp_font);
-	Planet planet3(1500, 500, 3000000, 200, "sprites/planets/pink.png", &hp_font);
-
-	planet_list.addPlanet(&planet1);
-	planet_list.addPlanet(&planet2);
-	planet_list.addPlanet(&planet3);
-
-	Tank tank1(&planet1, "sprites/tanks/tank3.png", &hp_font);
-	Tank tank2(&planet3, "sprites/tanks/tank4.png", &hp_font);
-	Tank tank_list[2] = { tank1, tank2 };
-
-	Barrel barrel1(&tank_list[0], "sprites/tanks/barrel3.png", "sprites/explosions/smoke_140_64.png");
-	Barrel barrel2(&tank_list[1], "sprites/tanks/barrel4.png", "sprites/explosions/smoke_140_64.png");
-	Barrel barrel_list[2] = { barrel1, barrel2 };
-
-	*/
 	GameSettings settings;
 	settings = StartMenu();
 	map map1(window_W, window_H, "Space Tank");
@@ -212,13 +189,6 @@ int main()
 								power_roll = 2;
 							}
 						}
-						/*
-						if (power < 105) {
-
-							power += 1.f;
-
-						}
-						 */
 					}
 
 				}
@@ -241,14 +211,16 @@ int main()
 			// Any Anomation update goes here
 			if (settings.Map==1)
 			{
-				planet_list->tail->value.shape.rotate(float(-0.07));
+				planet_list.tail -> value -> shape.rotate(float(-0.07));
 			}
 			else if (settings.Map==2)
 			{
-				planet_list->head->next->next->value.shape.orbit(float(-0.07),400,380);
-				planet_list->tail->value.shape.orbit(float(0.01),750,380);
+				planet_list.head->next->next-> value -> orbit(float(-0.03),400,380);
+				planet_list.head->next->next-> value -> Mass_display = false;
+				planet_list.tail->value -> orbit(float(0.02),1300,380);
+				planet_list.tail->value -> Mass_display = false;
+
 			}
-			planet_list->tail.shape.rotate()
 			if (power_roll == 1) {
 				if (power < 105 && !scroll_flag) {
 					power += 1.f;
@@ -299,7 +271,6 @@ int main()
 
 							tank_list[0]->updateHP_Text();
 							tank_list[1]->updateHP_Text();
-							//std::cout << "got hit tank hp: " << tank1.getHp() << std::endl;
 
 						}
 					}
@@ -310,7 +281,9 @@ int main()
 		map1.window.draw(map1.background);
 		for (planet_node *current = planet_list.head; current != NULL; current = current->next) {
 			map1.window.draw(current->value->shape);
-			map1.window.draw(current->value->Mass_text);
+			if (current -> value -> Mass_display) {
+				map1.window.draw(current->value->Mass_text);
+			}
 		}
 		map1.window.draw(HUD_PWR);
 		map1.window.draw(HUD_TURN);
